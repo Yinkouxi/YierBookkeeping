@@ -1,13 +1,9 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <div>hi iamYier</div>
-  <ul>
-    <li>gsdfgv</li>
-    <li>gsdfbvdf</li>
-    <li>hsgfhsf</li>
-  </ul>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
-<style scoped></style>
+<script setup></script>
+
+<style lang="less" scoped></style>
