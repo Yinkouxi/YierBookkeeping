@@ -1,15 +1,9 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from '@/App.vue'
+import 'normalize.css'
+import '@/assets/css/index.less'
+import router from './router'
 
-createApp(App).mount('#app')
-console.log(import.meta.env.VITE_APP_WEB_URL)
-
-const info = {
-  name: 'Yier',
-  age: 19,
-  school: 'jxa',
-  gota: 'pqx'
-}
-
-console.log(info)
+const app = createApp(App)
+app.use(router)
+app.mount('#app')
