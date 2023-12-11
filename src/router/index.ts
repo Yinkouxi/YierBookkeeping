@@ -16,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/welcome',
-    redirect:'welcome/one',
+    redirect: 'welcome/one',
     component: () => import('@/views/WelcomePage.vue'),
     children: [
       {
@@ -34,8 +34,13 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'four',
         component: () => import('@/components/welcome/WelcomeFour.vue')
-      },
+      }
     ]
+  },
+  // 路径不匹配时显示notfound页面
+  {
+    path: '/:pathMatch(.*)',
+    component: () => import('@/views/NotFound.vue')
   }
 ]
 

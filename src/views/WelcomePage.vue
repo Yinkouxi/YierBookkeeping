@@ -1,6 +1,5 @@
 <template>
-  <div class="welcome">
-    <h2>welcome</h2>
+  <div class="welcome-page">
     <router-view></router-view>
   </div>
 </template>
@@ -10,7 +9,10 @@
 </script>
 
 <style lang="less" scoped>
-.welcome{
-    color: blueviolet;
-}
+  .welcome-page{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #7b6262;
+  }
 </style>
