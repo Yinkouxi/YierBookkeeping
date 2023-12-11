@@ -10,10 +10,32 @@ const routes: Array<RouteRecordRaw> = [
     path: '/about',
     component: () => import('@/views/About.vue')
   },
-  // 添加其他路由
   {
     path: '/home',
     component: () => import('@/views/Home.vue')
+  },
+  {
+    path: '/welcome',
+    redirect:'welcome/one',
+    component: () => import('@/views/WelcomePage.vue'),
+    children: [
+      {
+        path: 'one',
+        component: () => import('@/components/welcome/WelcomeOne.vue')
+      },
+      {
+        path: 'two',
+        component: () => import('@/components/welcome/WelcomeTwo.vue')
+      },
+      {
+        path: 'three',
+        component: () => import('@/components/welcome/WelcomeThree.vue')
+      },
+      {
+        path: 'four',
+        component: () => import('@/components/welcome/WelcomeFour.vue')
+      },
+    ]
   }
 ]
 
