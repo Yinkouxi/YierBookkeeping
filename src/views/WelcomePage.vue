@@ -9,10 +9,10 @@
 </script>
 
 <style lang="less" scoped>
-  .welcome-page{
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-    background-color: #7b6262;
-  }
+  // .welcome-page{
+  //   display: flex;
+  //   height: 100vh;
+  //   flex-direction: column;
+  //   background-color: #6035BF;
+  // }
 </style>

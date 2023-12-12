@@ -1,75 +1,72 @@
 <template>
   <div class="wrapper">
-    <header>
-      <h1 class="skip-welcome">跳过</h1>
-      <div class="logo-container">
-        <img src="@/assets/img/welcome/logo.svg" alt="" />
+    <h2 class="pass-welcome">跳过</h2>
+    <div class="logo">
+      <img src="@/assets/img/welcome/logo.svg" alt="" />
+    </div>
+    <div class="content">
+      <div class="wel-img">
+        <img src="@/assets/img/welcome/pig.svg" alt="" />
       </div>
-    </header>
-    <article class="main">
-      <img src="@/assets/img/welcome/pig.svg" alt="" />
-      <h1 class="slogan">
-        会挣钱
-        <br />
-        还要会省钱
-      </h1>
-      <div class="next-page">
-        <h1>下一页</h1>
+      <div class="slogan">
+        <h1>会挣钱</h1>
+        <h1>还要会省钱</h1>
       </div>
-    </article>
+      <h1 class="next-page">下一页</h1>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup lang="ts"></script>
 
 <style lang="less" scoped>
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  background-image: linear-gradient(to bottom, #633CC0 0%, #975AD9 100%);
-}
-
-.skip-welcome {
-  display: flex;
-  justify-content: flex-end;
-  margin: 16px 16px 0 0;
-  color: #fff;
-  font-size: 32px;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 52px;
-}
-
-img {
-  width: 128px;
-}
-
-.main {
+  background-color: aquamarine;
+  background-image: linear-gradient(to bottom, #633cc0 0%, #975ad9 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-grow: 1;
-  background-color: #fff;
-  border-radius: 20px;
-  margin: 52px 12px 62px 12px;
-  text-align: center;
-  font-size: 32px;
+  padding: 16px 16px 60px 12px;
+  height: 100vh;
 
-  img {
-    width: 134px;
-    padding: 130px 0 30px 0;
-  }
-
-  .next-page {
+  .pass-welcome {
+    align-self: flex-end;
     font-size: 32px;
-    color: #6035BF;
     font-weight: 700;
-    margin-top: 80px;
+    color: #fff;
+  }
+  .logo {
+    margin-top: 60px;
+    margin-bottom: 20px;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 12px;
+    width: 100%;
+
+    .wel-img {
+      margin-top: 60px;
+      flex-grow: 1;
+    }
+    .slogan {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      align-items: center;
+      font-size: 32px;
+      font-weight: 350;
+      color: #000000;
+    }
+    .next-page {
+      flex-grow: 1;
+      color: #6035bf;
+      font-weight: 700;
+      font-size: 32px;
+    }
   }
 }
 </style>
