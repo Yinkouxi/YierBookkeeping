@@ -12,7 +12,7 @@
         <h1>会挣钱</h1>
         <h1>还要会省钱</h1>
       </div>
-      <h1 class="next-page">下一页</h1>
+      <router-link class="next-page" to="/welcome/two">下一页</router-link>
     </div>
   </div>
 </template>
