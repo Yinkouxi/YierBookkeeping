@@ -5,6 +5,7 @@
       :slogan1="welcomeOneSlogan1"
       :slogan2="welcomeOneSlogan2"
       :nextPage="nextPage"
+      :nextText="nextText"
     />
   </div>
 </template>
@@ -15,6 +16,7 @@ import welcomeImg from '@/assets/img/welcome/cloud.svg'
 const welcomeOneSlogan1 = '云备份'
 const welcomeOneSlogan2 = '再也不怕数据丢失'
 const nextPage = '/start'
+const nextText = '完成'
 </script>
 
 <style lang="less" scoped></style>

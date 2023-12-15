@@ -12,7 +12,7 @@
         <h1>{{ slogan1 }}</h1>
         <h1>{{ slogan2 }}</h1>
       </div>
-      <router-link class="next-page" :to="nextPage">下一页</router-link>
+      <router-link class="next-page" :to="nextPage">{{nextText}}</router-link>
     </div>
   </div>
 </template>
@@ -30,6 +30,10 @@ defineProps({
   nextPage: {
     type: [String, Object] as unknown as () => RouteLocationRaw,
     default: '/'
+  },
+  nextText:{
+    type:String,
+    default:'下一页'
   }
 })
 </script>
