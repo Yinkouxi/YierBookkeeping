@@ -4,7 +4,11 @@
     <div class="logo">
       <img src="@/assets/img/welcome/logo.svg" alt="" />
     </div>
-    <router-view class="page"></router-view>
+    <router-view class="page" v-slot="{ Component }">
+      <transition name="slide-fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -49,6 +53,21 @@
     background-color: #fff;
     border-radius: 12px;
     width: 100%;
+  }
+
+  .slide-fade-enter-active {
+    position: relative;
+    transition: all 0.7s ease-out;
+  }
+  // .slide-fade-leave-active {
+  //   transition: all 5s ease-out;
+  // }
+  // .slide-fade-leave-to {
+  //   transform: translateX(-100vw);
+  //   opacity: 0;
+  // }
+  .slide-fade-enter-from {
+    transform: translateX(100vw);
   }
 }
 </style>

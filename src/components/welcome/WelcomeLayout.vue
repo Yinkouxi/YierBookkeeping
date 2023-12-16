@@ -41,6 +41,7 @@ defineProps({
   background-color: #fff;
   border-radius: 12px;
   width: 100%;
+  // position: absolute;
 
   .wel-img {
     margin-top: 60px;
