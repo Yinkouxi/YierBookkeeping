@@ -32,6 +32,10 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  {
+    path:'/start',
+    component:()=>import('@/views/StartPage.vue')
+  },
   // 路径不匹配时显示notfound页面
   {
     path: '/:pathMatch(.*)',
