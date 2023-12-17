@@ -1,7 +1,11 @@
 <template>
   <div class="content">
     <div class="wel-img">
-      <img :src="welImg" alt="" />
+      <svg style="width: 128px">
+        <!-- 'xlink：href执行用哪一个图标,属性值务必icon-图标名字·' -->
+        <!-- use标签fi11属性可以设置图标的颜色 -->
+        <use :xlink:href= iconName ></use>
+      </svg>
     </div>
     <div class="slogan">
       <h1>{{ slogan1 }}</h1>
@@ -15,9 +19,8 @@
 import { defineProps } from 'vue'
 import { RouteLocationRaw } from 'vue-router'
 defineProps({
-  welImg: {
-    type: String,
-    require: true
+  iconName: {
+    type: String
   },
   slogan1: String,
   slogan2: String,

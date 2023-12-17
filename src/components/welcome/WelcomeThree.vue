@@ -1,7 +1,7 @@
 <template>
   <div>
     <welcome-layout
-      :welImg="welcomeImg"
+      :iconName="iconName"
       :slogan1="welcomeOneSlogan1"
       :slogan2="welcomeOneSlogan2"
       :nextPage="nextPage"
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import WelcomeLayout from './WelcomeLayout.vue'
-import welcomeImg from '@/assets/img/welcome/chart.svg'
+const iconName = '#icon-chart'
 const welcomeOneSlogan1 = '数据可视化'
 const welcomeOneSlogan2 = '收支一目了然'
 const nextPage = '/welcome/four'

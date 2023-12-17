@@ -1,7 +1,7 @@
 <template>
   <div>
     <welcome-layout
-      :welImg="welcomeImg"
+      :iconName="iconName"
       :slogan1="welcomeOneSlogan1"
       :slogan2="welcomeOneSlogan2"
       :nextPage="nextPage"
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import WelcomeLayout from './WelcomeLayout.vue'
-import welcomeImg from '@/assets/img/welcome/clock.svg'
+const iconName = '#icon-clock'
 const welcomeOneSlogan1 = '每日提醒'
 const welcomeOneSlogan2 = '不会遗漏每一笔账单'
 const nextPage = '/welcome/three'

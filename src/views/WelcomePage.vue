@@ -2,7 +2,9 @@
   <div class="welcome-page">
     <router-link class="pass-welcome" to="/start">跳过</router-link>
     <div class="logo">
-      <img src="@/assets/img/welcome/logo.svg" alt="" />
+      <svg style="width: 128px">
+        <use xlink:href="#icon-logo"></use>
+      </svg>
     </div>
     <router-view class="page" v-slot="{ Component }">
       <transition name="slide-fade">
