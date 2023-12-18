@@ -15,6 +15,13 @@ export default defineConfig({
       symbolId: 'icon-[dir]-[name]'
     })
   ],
+  css: {
+    preprocessorOptions: {
+      less: {
+        additionalData: `@import '@/assets/css/vars.less';`
+      }
+    }
+  },
   // 设置文件别名./src路径为@
   resolve: {
     // 设置文件./src路径为 @
