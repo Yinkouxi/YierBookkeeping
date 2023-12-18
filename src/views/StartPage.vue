@@ -4,11 +4,13 @@
     <div class="btn-wrapper">
       <Button class="btn" @click="btnClick">测试</Button>
     </div>
+    <FloatButton></FloatButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import Button from '@/shared/Button.vue'
+import FloatButton from '@/shared/FloatButton.vue'
 
 const btnClick = ()=>{
   console.log('btn click')
