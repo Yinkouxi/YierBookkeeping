@@ -18,6 +18,5 @@
   height: 56px;
   border-radius: 50%;
   background-color: @float-button-bg;
-  color: rgb(146, 79, 79);
 }
 </style>
