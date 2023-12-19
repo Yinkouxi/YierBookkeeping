@@ -18,7 +18,7 @@
 
 <style lang="less" scoped>
 .welcome-page {
-  background-image: linear-gradient(to bottom, #633cc0 0%, #975ad9 100%);
+  background-image: linear-gradient(to bottom, @welcome-bg-start 0%, @welcome-bg-end 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
