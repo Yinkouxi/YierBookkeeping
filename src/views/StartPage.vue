@@ -2,7 +2,7 @@
   <div class="start-page">
     <Navbar>
       <template #icon>
-        <svgIcon name="menu" color="white" width="26px" height="26px"></svgIcon>
+        <svgIcon name="menu" color="white" width="26px" height="26px" @click=onClickMenu()></svgIcon>
       </template>
       <template #title>
         <span>山竹记账</span>
@@ -12,9 +12,10 @@
       <svg-icon name="pig" width="128px" height="130px"></svg-icon>
     </CenterContainer>
     <div class="btn-wrapper">
-      <Button class="btn" @click="btnClick">开始记账</Button>
+      <Button class="btn">开始记账</Button>
     </div>
     <FloatButton></FloatButton>
+    <Overlay v-show="overlayVisible" @close-overlay="closeOverlay"></Overlay>
   </div>
 </template>
 
@@ -23,9 +24,17 @@ import Button from '@/shared/Button.vue'
 import FloatButton from '@/shared/FloatButton.vue'
 import CenterContainer from '@/shared/CenterContainer.vue'
 import Navbar from '@/shared/Navbar.vue'
+import Overlay from '@/shared/Overlay.vue'
+import { ref } from 'vue'
 
-const btnClick = () => {
-  console.log('btn click')
+const overlayVisible = ref(false)
+
+const onClickMenu = ()=>{
+  overlayVisible.value= !overlayVisible.value
+}
+
+const closeOverlay =()=>{
+  overlayVisible.value=false
 }
 </script>
 
