@@ -6,15 +6,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/welcome'
   },
+  // welcome
   {
     path: '/welcome',
     component: () => import('@/views/WelcomePage.vue'),
     children: [
       {
-        path:'',
-        redirect:'/welcome/one'
+        path: '',
+        redirect: '/welcome/one'
       },
-      { 
+      {
         path: 'one',
         component: () => import('@/components/welcome/WelcomeOne.vue')
       },
@@ -32,9 +33,19 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  // startPage
   {
-    path:'/start',
-    component:()=>import('@/views/StartPage.vue')
+    path: '/start',
+    component: () => import('@/views/StartPage.vue')
+  },
+  {
+    path: '/items',
+    // component: () => import('@/views/ItemPage.vue'),
+    children: [
+      { path: '', redirect: '/items/list' },
+      { path: 'list', component: () => import('@/components/item/ItemList.vue') },
+      { path: 'create', component: () => import('@/components/item/ItemCreate.vue') }
+    ]
   },
   // 路径不匹配时显示notfound页面
   {
