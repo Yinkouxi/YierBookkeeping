@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/items',
-    // component: () => import('@/views/ItemPage.vue'),
+    component: () => import('@/views/ItemPage.vue'),
     children: [
       { path: '', redirect: '/items/list' },
       { path: 'list', component: () => import('@/components/item/ItemList.vue') },
