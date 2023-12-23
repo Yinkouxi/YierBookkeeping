@@ -1,14 +1,19 @@
 <template>
-  <div class="itempage">
-    <router-view></router-view>
+  <div>
+    <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
+
+defineProps({
+  title:{
+    type:String
+  }
+})
+
 </script>
 
 <style lang="less" scoped>
-.itempage {
-  color: blueviolet;
-}
+
 </style>

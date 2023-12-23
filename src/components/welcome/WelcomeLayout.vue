@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { RouteLocationRaw } from 'vue-router'
 defineProps({
   iconName: {
