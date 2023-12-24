@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <div
-      v-for="(tabTitle, index) in tabTitles"
-      :key="index"
-      :class="selected === tabTitle ? 'selected' : ''"
-      @click="$emit('update', tabTitle)"
-    >
-      {{ tabTitle }}
+  <div class="tabs">
+    <div class="nav">
+      <li
+        v-for="(tabTitle, index) in tabTitles"
+        :key="index"
+        :class="selected === tabTitle ? 'selected' : ''"
+        @click="$emit('update', tabTitle)"
+      >
+        {{ tabTitle }}
+      </li>
     </div>
     <!-- 全部展示 -->
     <!-- <component v-for="(tabInfo, index) in defaults" :key="index" :is="tabInfo"> </component> -->
@@ -49,8 +51,35 @@ const current = computed(() => {
 </script>
 
 <style lang="less" scoped>
-.selected {
-  color: white;
-  background-color: rgb(118, 35, 35);
+.tabs {
+  display: flex;
+  flex-direction: column;
+  .nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background-color: @tabs-bg-color;
+    color: @navbar-color;
+    li{
+      flex-grow: 1;
+      flex-shrink: 0;
+      padding: 12px 0;
+    }
+
+    .selected {
+      position: relative;
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: @tabs-indicator-bg;
+      }
+    }
+  }
 }
 </style>
