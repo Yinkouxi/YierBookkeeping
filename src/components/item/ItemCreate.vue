@@ -13,6 +13,10 @@
       <Tab title="支出"> icon-支出 </Tab>
       <Tab title="收入"> icon-收入 </Tab>
     </Tabs>
+
+    <div class="input-pad-wrapper">
+      <InputPad/>
+    </div>
   </div>
 </template>
 
@@ -21,6 +25,7 @@ import Navbar from '@/shared/Navbar.vue'
 import Tabs from '../../shared/Tabs.vue'
 import Tab from '../../shared/Tab.vue'
 import { ref } from 'vue'
+import InputPad from '../../shared/InputPad.vue';
 
 let tabsKind = ref('支出')
 function updateSelected(tabTitle:string){
@@ -33,5 +38,13 @@ function updateSelected(tabTitle:string){
 <style lang="less" scoped>
 .item-create {
   color: blueviolet;
+
+  .input-pad-wrapper{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    // border: 1px solid red;
+  }
 }
 </style>
