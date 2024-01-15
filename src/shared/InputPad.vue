@@ -4,20 +4,22 @@
     <div class="data-amount">
       <div class="data">
         <svgIcon name="data" color="#5c33be" width="26px" height="26px"></svgIcon>
-        <span>2023-12-26</span>
+        <span>{{ time(now).format() }}</span>
       </div>
       <span class="amount">{{ amount }}</span>
     </div>
     <div class="key-board">
-      <button v-for="btn in buttons">{{ btn.text }}</button>
+      <button v-for="(btn,id) in buttons" @click="buttons[id].onclick">{{ btn.text }}</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { time } from '../shared/time'
 
-const amount = ref('0')
+const amount = ref('00000')
+const now = new Date()
 const buttons = [
   {
     text: '1',
@@ -25,7 +27,9 @@ const buttons = [
       console.log('1')
     }
   },
-  { text: '2', onclick: () => {} },
+  { text: '2', onclick: () => {
+    console.log(2)
+  } },
   { text: '3', onclick: () => {} },
   { text: '4', onclick: () => {} },
   { text: '5', onclick: () => {} },
@@ -38,6 +42,8 @@ const buttons = [
   { text: '清空', onclick: () => {} },
   { text: '提交', onclick: () => {} }
 ]
+
+
 </script>
 
 <style lang="less" scoped>
@@ -48,20 +54,21 @@ const buttons = [
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px;
+    font-family: monospace;
+
     .data {
       display: flex;
       justify-content: start;
       align-items: center;
+      color: @date-text-color;
       span {
         margin-left: 8px;
         font-size: 12px;
-        // height: 20px;
-        // line-height: 20px;
-        
       }
     }
     .amount {
       color: @amount-text-color;
+      font-size: 20px;
     }
   }
 }
@@ -74,7 +81,6 @@ const buttons = [
     'n0 n0 nd s';
   grid-auto-rows: 48px;
   grid-auto-columns: 1fr;
-  // gap: 0px;
   row-gap: 1px;
   column-gap: 1px;
   flex-wrap: wrap;
