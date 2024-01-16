@@ -5,7 +5,7 @@
   </svg>
 </template>
 <script setup lang="ts">
-import { defineProps } from 'Vue'
+import { defineProps } from 'vue'
 
 defineProps({
   // xlink:href的属性值前缀
