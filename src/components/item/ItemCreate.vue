@@ -31,7 +31,6 @@ let tabsKind = ref('支出')
 function updateSelected(tabTitle:string){
   tabsKind.value=tabTitle
 }
-// console.log(tabsKind)
 
 </script>
 
@@ -44,7 +43,6 @@ function updateSelected(tabTitle:string){
     bottom: 0;
     left: 0;
     width: 100%;
-    // border: 1px solid red;
   }
 }
 </style>

@@ -73,34 +73,11 @@ const appendText = (n: number | string) => {
       }
       amount.value += n.toString()
     }
-// const appendText = (n: string | number) => {
-//   const nString =  n.toString()
-//   const dotIndex = nString.indexOf('.')
-//   console.log(dotIndex)
-//   if(nString === '.'){
-//     // 如果已经存在小数点
-//     if(dotIndex>=0){
-//       return
-//     }else{
-//       amount.value += n.toString()
-//     }
-//   }
-//   amount.value += n.toString()
-// }
+
 
 const buttons = [
-  {
-    text: '1',
-    onclick: () => {
-      appendText(1)
-    }
-  },
-  {
-    text: '2',
-    onclick: () => {
-      appendText(2)
-    }
-  },
+  { text: '1', onclick: () => { appendText(1)} },
+  { text: '2', onclick: () => { appendText(2)} },
   { text: '3', onclick: () => { appendText(3)} },
   { text: '4', onclick: () => { appendText(4)} },
   { text: '5', onclick: () => { appendText(5)} },
