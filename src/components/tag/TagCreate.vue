@@ -15,7 +15,7 @@
         <label class="input-label">
           <span>标签名</span>
           <div class="input-wrapper">
-            <input type="text" placeholder="  请输入2-4个汉字" />
+            <input v-model="formData.name" type="text" placeholder="请输入2-4个汉字" />
           </div>
           <div class="input-error">
             <span>必填</span>
@@ -27,7 +27,7 @@
         <label class="emoji-label">
           <span class="symbol">符号:</span>
           <span>#(emoji)</span>
-          <div class="emoji-list">
+          <!-- <div class="emoji-list">
             <nav class="emoji-nav">
               <span>表情</span>
               <span>手势</span>
@@ -196,7 +196,8 @@
               <li>&#129409</li>            
               <li>&#129409</li>            
             </ol>
-          </div>
+          </div> -->
+          <EmojiSelect></EmojiSelect>
           <div class="input-error">
             <span>必填</span>
           </div>
@@ -213,6 +214,14 @@
 <script setup lang="ts">
 import Navbar from '@/shared/Navbar.vue'
 import Button from '../../shared/Button.vue'
+import EmojiSelect from '@/shared/EmojiSelect.vue'
+import { reactive } from 'vue';
+
+const formData = reactive({
+  name:'',
+  sign:''
+})
+
 </script>
 
 <style lang="less" scoped>
@@ -232,6 +241,7 @@ import Button from '../../shared/Button.vue'
         height: 48px;
         line-height: 48px;
         margin-top: 10px;
+        padding: 0 10px 0 10px;
         font-size: 18px;
         color: @tag-create-text-color-normal;
       }
