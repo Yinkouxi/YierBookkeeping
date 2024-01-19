@@ -1,3 +1,4 @@
+import path from 'path'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 // 使用() => import() 来实现懒加载
@@ -47,10 +48,18 @@ const routes: Array<RouteRecordRaw> = [
       { path: 'create', component: () => import('@/components/item/ItemCreate.vue') }
     ]
   },
+  {
+    path:'/tags', 
+    component:()=> import('@/views/Tagpage.vue'),
+    children:[
+      {path:'create',component:()=>import('@/components/tag/TagCreate.vue')},
+      {path:':id',component:()=>import('@/components/tag/TagEdit.vue')}
+    ]
+  },
   // 路径不匹配时显示notfound页面
   {
     path: '/:pathMatch(.*)',
-    component: () => import('@/views/NotFound.vue')
+    component: () => import('@/views/NotFound.vue'),
   }
 ]
 
