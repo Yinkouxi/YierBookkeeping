@@ -9,153 +9,316 @@
       </template>
     </Navbar>
 
-    <form action="">
+    <form class="form">
+      <!-- input -->
       <div>
-        <label for="">
+        <label class="input-label">
           <span>标签名</span>
-          <div>
-            <input type="text" placeholder="请输入2-4个汉字" />
+          <div class="input-wrapper">
+            <input type="text" placeholder="  请输入2-4个汉字" />
           </div>
-          <div>err信息</div>
+          <div class="input-error">
+            <span>必填</span>
+          </div>
         </label>
       </div>
-      <div>
-        <label for="">
-          <span>符号</span>
+      <!-- emojiList -->
+      <div class="emoji-list-wrapper">
+        <label class="emoji-label">
+          <span class="symbol">符号:</span>
           <span>#(emoji)</span>
-          <div>
-            <nav>
+          <div class="emoji-list">
+            <nav class="emoji-nav">
               <span>表情</span>
               <span>手势</span>
-              <span>职业</span>
+              <span>人物</span>
               <span>衣服</span>
               <span>动物</span>
+              <span>植物</span>
+              <span>自然</span>
+              <span>食物</span>
+              <span>运动</span>
+              <span>表情</span>
+              <span>手势</span>
+              <span>人物</span>
+              <span>衣服</span>
+              <span>动物</span>
+              <span>植物</span>
               <span>自然</span>
               <span>食物</span>
               <span>运动</span>
             </nav>
             <ol>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-              <li>5</li>
-              <li>6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>13</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-              <li>17</li>
-              <li>18</li>
-              <li>19</li>
-              <li>20</li>
-              <li>21</li>
-              <li>22</li>
-              <li>23</li>
-              <li>24</li>
-              <li>25</li>
-              <li>26</li>
-              <li>27</li>
-              <li>28</li>
-              <li>29</li>
-              <li>30</li>
-              <li>31</li>
-              <li>32</li>
-              <li>33</li>
-              <li>34</li>
-              <li>35</li>
-              <li>36</li>
-              <li>37</li>
-              <li>38</li>
-              <li>39</li>
-              <li>40</li>
-              <li>41</li>
-              <li>42</li>
-              <li>43</li>
-              <li>44</li>
-              <li>45</li>
-              <li>46</li>
-              <li>47</li>
-              <li>48</li>
-              <li>49</li>
-              <li>50</li>
-              <li>51</li>
-              <li>52</li>
-              <li>53</li>
-              <li>54</li>
-              <li>55</li>
-              <li>56</li>
-              <li>57</li>
-              <li>58</li>
-              <li>59</li>
-              <li>60</li>
-              <li>61</li>
-              <li>62</li>
-              <li>63</li>
-              <li>64</li>
-              <li>65</li>
-              <li>66</li>
-              <li>67</li>
-              <li>68</li>
-              <li>69</li>
-              <li>70</li>
-              <li>71</li>
-              <li>72</li>
-              <li>73</li>
-              <li>74</li>
-              <li>75</li>
-              <li>76</li>
-              <li>77</li>
-              <li>78</li>
-              <li>79</li>
-              <li>80</li>
-              <li>81</li>
-              <li>82</li>
-              <li>83</li>
-              <li>84</li>
-              <li>85</li>
-              <li>86</li>
-              <li>87</li>
-              <li>88</li>
-              <li>89</li>
-              <li>90</li>
-              <li>91</li>
-              <li>92</li>
-              <li>93</li>
-              <li>94</li>
-              <li>95</li>
-              <li>96</li>
-              <li>97</li>
-              <li>98</li>
-              <li>99</li>
-              <li>100</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
+              <li>&#129409</li>            
             </ol>
+          </div>
+          <div class="input-error">
+            <span>必填</span>
           </div>
         </label>
       </div>
-      <p>记账时长按标签，即可进行编辑</p>
-      <Button>确定</Button>
+      <p class="tips">记账时长按标签，即可进行编辑</p>
+      <div class="button-wrapper">
+        <Button class="button">确定</Button>
+      </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import Navbar from '@/shared/Navbar.vue'
-import Button from '../../shared/Button.vue';
+import Button from '../../shared/Button.vue'
 </script>
 
 <style lang="less" scoped>
 .tag-create {
-  .test {
-    width: 100px;
-    height: 100px;
-    background-color: #8d4c4c;
+  .form {
+    padding: 16px;
+    .input-label {
+      span {
+        font-size: 18px;
+        color: @tag-create-text-color;
+      }
+
+      input {
+        border: 1px solid red;
+        border-radius: 8px;
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        margin-top: 10px;
+        font-size: 18px;
+        color: @tag-create-text-color-normal;
+      }
+      .input-error {
+        margin-top: 4px;
+        span {
+          font-size: 14px;
+          color: @tag-create-text-color-error;
+        }
+      }
+    }
+
+    .emoji-list-wrapper {
+      margin-top: 16px;
+
+      .emoji-label {
+        .symbol {
+          color: @tag-create-text-color;
+          font-size: 18px;
+          margin-top: 16px;
+        }
+        .emoji-list{
+          
+          display: flex;
+          flex-direction: column;
+          padding: 10px 12px 0 12px;
+          border: 1px solid @tag-create-emoji-list-border-color;
+          border-radius: 8px;
+          
+          .emoji-nav{
+            display: flex;
+            color: @tag-create-text-color-normal;
+            overflow: auto;
+            
+            
+            span{
+                margin-right: 16px;
+                line-height: 16px;
+                text-wrap: nowrap;
+            }
+          }
+          .emoji-nav::-webkit-scrollbar{
+              display: none;
+            }
+            ol{
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              font-size: 24px;
+              line-height: 32px;
+              height: calc(32px*12);
+              margin-top: 10px;
+              overflow: auto;
+              li{
+                width: 10%;
+                flex-grow: 0;
+                flex-shrink: 0;
+                align-items: center;
+              }
+            }
+
+            ol::-webkit-scrollbar{
+              display: none;
+            }
+        }
+        .input-error {
+          margin-top: 4px;
+          span {
+            font-size: 14px;
+            color: @tag-create-text-color-error;
+          }
+        }    
+      }
+    }
+    .tips{
+      color: @tag-create-text-color;
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .button-wrapper{
+      margin-top: 30px;
+      // margin-bottom: 60px;
+      .button{
+        width: 100%;
+      }
+    }
   }
 }
 </style>
