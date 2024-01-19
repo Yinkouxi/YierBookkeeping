@@ -1,6 +1,5 @@
 <template>
   <div class="tagPage">
-    <h2>tagPage</h2>
     <router-view></router-view>
   </div>
 </template>
