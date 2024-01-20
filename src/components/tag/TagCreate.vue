@@ -25,179 +25,9 @@
       <!-- emojiList -->
       <div class="emoji-list-wrapper">
         <label class="emoji-label">
-          <span class="symbol">符号:</span>
-          <span>#(emoji)</span>
-          <!-- <div class="emoji-list">
-            <nav class="emoji-nav">
-              <span>表情</span>
-              <span>手势</span>
-              <span>人物</span>
-              <span>衣服</span>
-              <span>动物</span>
-              <span>植物</span>
-              <span>自然</span>
-              <span>食物</span>
-              <span>运动</span>
-              <span>表情</span>
-              <span>手势</span>
-              <span>人物</span>
-              <span>衣服</span>
-              <span>动物</span>
-              <span>植物</span>
-              <span>自然</span>
-              <span>食物</span>
-              <span>运动</span>
-            </nav>
-            <ol>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-              <li>&#129409</li>            
-            </ol>
-          </div> -->
-          <EmojiSelect></EmojiSelect>
+          <span class="symbol">符号:  </span>
+          <span class="sign"> {{ formData.sign }}</span>
+          <EmojiSelect v-model="formData.sign"> </EmojiSelect>
           <div class="input-error">
             <span>必填</span>
           </div>
@@ -215,11 +45,11 @@
 import Navbar from '@/shared/Navbar.vue'
 import Button from '../../shared/Button.vue'
 import EmojiSelect from '@/shared/EmojiSelect.vue'
-import { reactive } from 'vue';
+import { reactive } from 'vue'
 
 const formData = reactive({
-  name:'',
-  sign:''
+  name: '',
+  sign: '😀'
 })
 
 </script>
@@ -263,49 +93,50 @@ const formData = reactive({
           font-size: 18px;
           margin-top: 16px;
         }
-        .emoji-list{
-          
+        .sign{
+          font-size: 28px;
+        }
+        .emoji-list {
           display: flex;
           flex-direction: column;
           padding: 10px 12px 0 12px;
           border: 1px solid @tag-create-emoji-list-border-color;
           border-radius: 8px;
-          
-          .emoji-nav{
+
+          .emoji-nav {
             display: flex;
             color: @tag-create-text-color-normal;
             overflow: auto;
-            
-            
-            span{
-                margin-right: 16px;
-                line-height: 16px;
-                text-wrap: nowrap;
+
+            span {
+              margin-right: 16px;
+              line-height: 16px;
+              text-wrap: nowrap;
             }
           }
-          .emoji-nav::-webkit-scrollbar{
-              display: none;
+          .emoji-nav::-webkit-scrollbar {
+            display: none;
+          }
+          ol {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            font-size: 24px;
+            line-height: 32px;
+            height: calc(32px * 12);
+            margin-top: 10px;
+            overflow: auto;
+            li {
+              width: 10%;
+              flex-grow: 0;
+              flex-shrink: 0;
+              align-items: center;
             }
-            ol{
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              font-size: 24px;
-              line-height: 32px;
-              height: calc(32px*12);
-              margin-top: 10px;
-              overflow: auto;
-              li{
-                width: 10%;
-                flex-grow: 0;
-                flex-shrink: 0;
-                align-items: center;
-              }
-            }
+          }
 
-            ol::-webkit-scrollbar{
-              display: none;
-            }
+          ol::-webkit-scrollbar {
+            display: none;
+          }
         }
         .input-error {
           margin-top: 4px;
@@ -313,19 +144,19 @@ const formData = reactive({
             font-size: 14px;
             color: @tag-create-text-color-error;
           }
-        }    
+        }
       }
     }
-    .tips{
+    .tips {
       color: @tag-create-text-color;
       font-size: 16px;
       text-align: center;
       margin-top: 20px;
     }
-    .button-wrapper{
+    .button-wrapper {
       margin-top: 30px;
       // margin-bottom: 60px;
-      .button{
+      .button {
         width: 100%;
       }
     }
