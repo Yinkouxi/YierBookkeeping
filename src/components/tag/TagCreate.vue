@@ -9,7 +9,7 @@
       </template>
     </Navbar>
 
-    <form class="form">
+    <form class="form" :onSubmit="onSubmit">
       <!-- input -->
       <div>
         <label class="input-label">
@@ -18,18 +18,18 @@
             <input v-model="formData.name" type="text" placeholder="请输入2-4个汉字" />
           </div>
           <div class="input-error">
-            <span>必填</span>
+            <span>{{ errors['name'] ? errors['name'][0] : '　' }}</span>
           </div>
         </label>
       </div>
       <!-- emojiList -->
       <div class="emoji-list-wrapper">
         <label class="emoji-label">
-          <span class="symbol">符号:  </span>
+          <span class="symbol">符号: </span>
           <span class="sign"> {{ formData.sign }}</span>
           <EmojiSelect v-model="formData.sign"> </EmojiSelect>
           <div class="input-error">
-            <span>必填</span>
+            <span>{{ errors['sign'] ? errors['sign'][0] : '　' }}</span>
           </div>
         </label>
       </div>
@@ -45,13 +45,31 @@
 import Navbar from '@/shared/Navbar.vue'
 import Button from '../../shared/Button.vue'
 import EmojiSelect from '@/shared/EmojiSelect.vue'
-import { reactive } from 'vue'
+import { reactive, toRaw } from 'vue'
+// import { Rules,validata} from '@/utils/validata.ts'
+import { Rules, validata } from '../../utils/validata'
 
 const formData = reactive({
   name: '',
   sign: '😀'
 })
-
+const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
+const onSubmit = (e: Event) => {
+  const rules: Rules<typeof formData> = [
+    { key: 'name', type: 'required', message: '必填' },
+    { key: 'name', type: 'pattern', regex: /^.{2,4}$/, message: '只能填 2 到 4 个字符' },
+    { key: 'sign', type: 'required', message: '必填' }
+  ]
+  // 校验前先清空
+  Object.assign(errors, {
+    name: undefined,
+    sign: undefined
+  })
+  Object.assign(errors, validata(formData, rules))
+  console.log(toRaw(formData))
+  console.log(errors,'---')
+  e.preventDefault()
+}
 </script>
 
 <style lang="less" scoped>
@@ -85,7 +103,7 @@ const formData = reactive({
     }
 
     .emoji-list-wrapper {
-      margin-top: 16px;
+      margin-top: 6px;
 
       .emoji-label {
         .symbol {
@@ -93,7 +111,7 @@ const formData = reactive({
           font-size: 18px;
           margin-top: 16px;
         }
-        .sign{
+        .sign {
           font-size: 28px;
         }
         .emoji-list {

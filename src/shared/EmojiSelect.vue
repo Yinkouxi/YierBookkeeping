@@ -157,6 +157,7 @@ const onClickEmoji = (emoji: any,index:number) => {
     }
   }
   .emoji-selected{
+    // 使用outline防止border致使整行变高导致页面重绘
     outline: 1px solid @tag-create-emoji-border-color;
     border-radius: 8px;
   }
