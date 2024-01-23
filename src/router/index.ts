@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     component:()=> import('@/views/Tagpage.vue'),
     children:[
       {path:'create',component:()=>import('@/components/tag/TagCreate.vue')},
-      {path:':id',component:()=>import('@/components/tag/TagEdit.vue')}
+      {path:':id/edit',component:()=>import('@/components/tag/TagEdit.vue')}
     ]
   },
   // 路径不匹配时显示notfound页面

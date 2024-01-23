@@ -136,8 +136,7 @@ const incomeTags = ref([
 
 <style lang="less" scoped>
 .item-create {
-  .nav {
-  }
+
   .tabs {
     flex-grow: 1;
     flex-shrink: 1;
