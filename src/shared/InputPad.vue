@@ -94,8 +94,9 @@ const buttons = [
 
 <style lang="less" scoped>
 .input-pad {
-  color: blueviolet;
+  border-top: 1px solid @input-border-color;
   .date-amount {
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;

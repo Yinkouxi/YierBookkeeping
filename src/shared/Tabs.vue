@@ -52,8 +52,7 @@ const current = computed(() => {
 
 <style lang="less" scoped>
 .tabs {
-  display: flex;
-  flex-direction: column;
+  position: relative;
   .nav {
     display: flex;
     justify-content: space-around;
@@ -61,7 +60,10 @@ const current = computed(() => {
     text-align: center;
     background-color: @tabs-bg-color;
     color: @navbar-color;
-    li{
+    position: sticky;
+    z-index: 1;
+    top: -0.4px;
+    li {
       flex-grow: 1;
       flex-shrink: 0;
       padding: 12px 0;
