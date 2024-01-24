@@ -11,8 +11,8 @@
 
     <TagForm />
     <div class="removes">
-      <Button class="remove-tags">删除标签</Button>
-      <Button class="remove-tags-items">删除标签和记账</Button>
+      <Button class="remove-tags" level="danger">删除标签</Button>
+      <Button class="remove-tags-items" level="danger">删除标签和记账</Button>
     </div>
   </div>
 </template>

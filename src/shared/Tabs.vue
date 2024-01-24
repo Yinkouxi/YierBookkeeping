@@ -61,7 +61,7 @@ const current = computed(() => {
     background-color: @tabs-bg-color;
     color: @navbar-color;
     position: sticky;
-    z-index: 1;
+    // z-index: 1;
     top: -0.4px;
     li {
       flex-grow: 1;
