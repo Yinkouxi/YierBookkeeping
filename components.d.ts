@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ItemCreate: typeof import('./src/components/item/ItemCreate.vue')['default']
     ItemList: typeof import('./src/components/item/ItemList.vue')['default']
+    ItemSummary: typeof import('./src/components/item/ItemSummary.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TagCreate: typeof import('./src/components/tag/TagCreate.vue')['default']
