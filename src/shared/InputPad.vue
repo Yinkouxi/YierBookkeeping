@@ -25,11 +25,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { time } from '../shared/time'
+import { Time } from '../utils/time'
 
 const amount = ref('0')
 const now = new Date()
-const currentDate = ref(time(now).format().split('-'))
+const currentDate = ref(new Time(now).format().split('-'))
 const showPop = ref(false)
 
 const showDatePicker = () => {
@@ -40,7 +40,7 @@ const hideDatePicker = () => {
 }
 const cancelDatePicker = () => {
   //点击取消更新为当天时间
-  currentDate.value = time(now).format().split('-')
+  currentDate.value = new Time(now).format().split('-')
   hideDatePicker()
 }
 const setDate = (datePic: any) => {
