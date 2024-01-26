@@ -42,7 +42,6 @@
 import { defineProps } from 'vue'
 
 defineProps({})
-const close = () => {}
 </script>
 
 <style lang="less" scoped>

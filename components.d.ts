@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ItemCreate: typeof import('./src/components/item/ItemCreate.vue')['default']
+    ItemForm: typeof import('./src/components/item/ItemForm.vue')['default']
     ItemList: typeof import('./src/components/item/ItemList.vue')['default']
     ItemSummary: typeof import('./src/components/item/ItemSummary.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -18,7 +19,9 @@ declare module 'vue' {
     VanButton: typeof import('vant/es')['Button']
     VanDatePicker: typeof import('vant/es')['DatePicker']
     VanDatetimePicker: typeof import('vant/es')['DatetimePicker']
+    VanDialog: typeof import('vant/es')['Dialog']
     VanField: typeof import('vant/es')['Field']
+    VanOverlay: typeof import('vant/es')['Overlay']
     VanPopup: typeof import('vant/es')['Popup']
     WelcomeFour: typeof import('./src/components/welcome/WelcomeFour.vue')['default']
     WelcomeLayout: typeof import('./src/components/welcome/WelcomeLayout.vue')['default']

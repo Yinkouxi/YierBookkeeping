@@ -5,10 +5,16 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from 'vue';
+
 
 defineProps({
   title:{
     type:String
+  },
+  test:{
+    type:Function as PropType<(name: string) => void>,
+      required: false,
   }
 })
 

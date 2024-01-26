@@ -135,7 +135,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 
-const props = defineProps({
+defineProps({
   startDate: {
     type: String as PropType<string>,
     require: true
@@ -146,7 +146,6 @@ const props = defineProps({
   }
 })
 
-console.log(props)
 </script>
 
 <style lang="less" scoped>

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots } from 'vue'
+import {  computed, useSlots } from 'vue'
 import Tab from './Tab.vue'
 
 defineEmits(['update'])
