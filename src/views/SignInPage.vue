@@ -12,16 +12,29 @@
       <svgIcon name="mangosteen" width="64px" height="68px"></svgIcon>
       <span class="title">山竹记账</span>
     </div>
-    <form class="main">
+    <form class="main" :onSubmit="onSubmit">
       <div class="email">
         <span class="title">邮箱地址</span>
-        <input type="text" placeholder="请输入邮箱，然后点击发送验证码" />
+        <input type="text" placeholder="请输入邮箱，然后点击发送验证码" v-model="formData.email" />
+        <div class="input-error">
+          <!-- <span>{{ errors['email'] ? errors['email'][0] : "&nbsp" }}</span> -->
+          <span v-show="showErrors.emailError">{{ showErrors.emailError }}</span>
+          <span v-show="showErrors.emailError === ''" class="space">&nbsp</span>
+        </div>
       </div>
       <div class="verification">
         <span class="title">验证码</span>
         <div class="verification-main">
-          <input class="verification-input" type="text" placeholder="六位数字" />
+          <input
+            class="verification-input"
+            type="text"
+            placeholder="六位数字"
+            v-model="formData.code"
+          />
           <Button class="send">发送验证码</Button>
+        </div>
+        <div class="input-error">
+          <span>{{ errors['code'].length !== 0 ? errors['code'][0] : '　' }}</span>
         </div>
       </div>
       <Button class="login-btn">登录</Button>
@@ -32,6 +45,42 @@
 <script setup lang="ts">
 import Navbar from '../shared/Navbar.vue'
 import Button from '../shared/Button.vue'
+import { reactive, toRaw } from 'vue'
+import { Rules, validata } from '../utils/validata'
+
+const formData = reactive({
+  email: '',
+  code: ''
+})
+
+const errors = reactive({
+  email: [],
+  code: []
+})
+
+const showErrors = {
+  emailError: '',
+  codeError: ''
+}
+
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  const rules: Rules<typeof formData> = [
+    { key: 'email', type: 'required', message: '必填' },
+    { key: 'email', type: 'pattern', regex: /.+@.+/, message: '请输入正确的邮箱地址' },
+    { key: 'code', type: 'required', message: '必填' },
+    { key: 'code', type: 'pattern', regex: /^\d{6}$/, message: '请输入六位数字验证码' }
+  ]
+  // 校验前先清空
+  Object.assign(errors, {
+    email: [],
+    code: []
+  })
+  Object.assign(errors, validata(formData, rules))
+
+  showErrors.emailError = toRaw(errors.email).toString()
+  showErrors.codeError = toRaw(errors.code).toString()
+}
 </script>
 
 <style lang="less" scoped>
@@ -64,34 +113,41 @@ import Button from '../shared/Button.vue'
       flex-direction: column;
     }
 
-    .title{
+    .title {
       color: #333333;
       margin-top: 16px;
       margin-bottom: 8px;
     }
-    input{
+    input {
       border: 1px solid @sign-in-input-border-color;
       height: 48px;
       border-radius: 8px;
       padding-left: 16px;
     }
-    .verification-main{
+    .verification-main {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .verification-input{
+      .verification-input {
         width: 8rem;
         margin-right: 16px;
       }
 
-      .send{
+      .send {
         flex-grow: 1;
         height: 48px;
       }
     }
 
-    .login-btn{
+    .login-btn {
       margin-top: 96px;
+    }
+  }
+  .input-error {
+    margin-top: 4px;
+    span {
+      font-size: 14px;
+      color: @tag-create-text-color-error;
     }
   }
 }
