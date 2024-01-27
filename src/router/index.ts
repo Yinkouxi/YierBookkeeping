@@ -56,6 +56,10 @@ const routes: Array<RouteRecordRaw> = [
       {path:':id/edit',component:()=>import('@/components/tag/TagEdit.vue')}
     ]
   },
+  {
+    path:'/sign_in',
+    component:()=> import('@/views/SignInPage.vue')
+  },
   // 路径不匹配时显示notfound页面
   {
     path: '/:pathMatch(.*)',
