@@ -8,7 +8,10 @@
         <span>山竹记账</span>
       </template>
     </Navbar>
-    <Tabs :selected="tabsKind" @update="updateSelected" class="tabs" @click="showOverlay">
+    <!-- <Tabs :selected="tabsKind" @update="updateSelected" class="tabs" @click="showOverlay"> -->
+    <Tabs :selected="tabsKind" @update="updateSelected" class="tabs" 
+      
+    >
       <Tab title="本月" class="tab">
         <ItemSummary
           :start-date="timeList[0].start.format()"
@@ -64,6 +67,7 @@ import { Time } from '../../utils/time'
 let tabsKind = ref('本月')
 function updateSelected(tabTitle: string) {
   tabsKind.value = tabTitle
+  showOverlay()
 }
 
 const time = new Time()
@@ -79,10 +83,11 @@ const customTime = reactive({
 })
 
 const overlayVisible = ref(false)
-const showOverlay = () => {
+function showOverlay() {
   // 如果是自定义时间tab
   if (tabsKind.value === '自定义时间') {
     overlayVisible.value = true
+    console.log(tabsKind.value)
   }
 }
 const hiddenOverlay = ()=>{
