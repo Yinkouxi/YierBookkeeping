@@ -60,6 +60,10 @@ const routes: Array<RouteRecordRaw> = [
     path:'/sign_in',
     component:()=> import('@/views/SignInPage.vue')
   },
+  {
+    path:'/statistics',
+    component:()=> import('@/views/StatisticsPage.vue')
+  },
   // 路径不匹配时显示notfound页面
   {
     path: '/:pathMatch(.*)',

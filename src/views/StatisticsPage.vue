@@ -1,35 +1,34 @@
 <template>
-  <div class="itemlist">
+  <div class="statistics">
     <Navbar>
       <template #icon>
-        <svgIcon name="menu" color="white" width="26px" height="26px"></svgIcon>
+        <svgIcon name="exit" color="white" width="26px" height="26px"></svgIcon>
       </template>
       <template #title>
-        <span>山竹记账</span>
+        <span>统计图表</span>
       </template>
     </Navbar>
-    <!-- <Tabs :selected="tabsKind" @update="updateSelected" class="tabs" @click="showOverlay"> -->
     <Tabs :selected="tabsKind" @update="updateSelected" class="tabs">
       <Tab title="本月" class="tab">
-        <ItemSummary
+        <Charts
           :start-date="timeList[0].start.format()"
           :end-date="timeList[0].end.format()"
         />
       </Tab>
       <Tab title="上月">
-        <ItemSummary
+        <Charts
           :start-date="timeList[1].start.format()"
           :end-date="timeList[1].end.format()"
         />
       </Tab>
       <Tab title="今年">
-        <ItemSummary
+        <Charts
           :start-date="timeList[2].start.format()"
           :end-date="timeList[2].end.format()"
         />
       </Tab>
       <tab title="自定义时间">
-        <ItemSummary :start-date="customTime.start" :end-date="customTime.end" />
+        <Charts :start-date="customTime.start" :end-date="customTime.end" />
       </tab>
     </Tabs>
     <van-overlay :show="overlayVisible" class="v-overlay" @click.stop="hiddenOverlay">
@@ -54,12 +53,11 @@
 
 <script setup lang="ts">
 import Navbar from '@/shared/Navbar.vue'
-import Tabs from '../../shared/Tabs.vue'
-import Tab from '../../shared/Tab.vue'
-import ItemSummary from './ItemSummary.vue'
-import ItemForm from './ItemForm.vue'
-import { reactive, ref } from 'vue'
-import { Time } from '../../utils/time'
+import Tabs from '../shared/Tabs.vue';
+import Tab from '../shared/Tab.vue';
+import Charts from '../components/statistics/Charts.vue';
+import { reactive, ref } from 'vue';
+import { Time } from '../utils/time';
 
 // Tabs切换绑定
 let tabsKind = ref('本月')
@@ -98,10 +96,12 @@ const protectContent = (e: Event) => {
 const customSubmit = (e: Event) => {
   e.preventDefault()
 }
+
 </script>
 
 <style lang="less" scoped>
-.itemlist {
+.statistics {
+  color: blueviolet;
   .tabs {
     flex-grow: 1;
     flex-shrink: 1;

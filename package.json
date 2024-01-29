@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "echarts": "^5.4.3",
     "normalize.css": "^8.0.1",
     "vant": "^4.8.2",
     "vue": "^3.3.8",
