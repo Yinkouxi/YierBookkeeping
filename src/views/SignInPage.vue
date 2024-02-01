@@ -31,7 +31,7 @@
             placeholder="六位数字"
             v-model="formData.code"
           />
-          <Button class="send">发送验证码</Button>
+          <Button class="send" @click="sendVerification">发送验证码</Button>
         </div>
         <div class="input-error">
           <span>{{ errors['code'].length !== 0 ? errors['code'][0] : '　' }}</span>
@@ -80,6 +80,14 @@ const onSubmit = (e: Event) => {
 
   showErrors.emailError = toRaw(errors.email).toString()
   showErrors.codeError = toRaw(errors.code).toString()
+}
+
+function sendVerification(e: Event) {
+  // 防止点击发送验证码
+  e.preventDefault()
+  if (formData.email == '') {
+    alert('请先输入邮箱地址')
+  }
 }
 </script>
 
