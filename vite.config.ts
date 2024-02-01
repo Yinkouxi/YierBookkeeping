@@ -20,6 +20,13 @@ export default defineConfig({
       symbolId: 'icon-[dir]-[name]'
     })
   ],
+  server:{
+    proxy:{
+      '/api/v1':{
+        target:'https://mangosteen2.hunger-valley.com'
+      }
+    }
+  },
   css: {
     preprocessorOptions: {
       less: {

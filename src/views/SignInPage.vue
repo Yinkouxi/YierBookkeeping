@@ -15,7 +15,7 @@
     <form class="main" :onSubmit="onSubmit">
       <div class="email">
         <span class="title">邮箱地址</span>
-        <input type="text" placeholder="请输入邮箱，然后点击发送验证码" v-model="formData.email" />
+        <input type="email" placeholder="请输入邮箱，然后点击发送验证码" v-model="formData.email" />
         <div class="input-error">
           <!-- <span>{{ errors['email'] ? errors['email'][0] : "&nbsp" }}</span> -->
           <span v-show="showErrors.emailError">{{ showErrors.emailError }}</span>
@@ -31,7 +31,9 @@
             placeholder="六位数字"
             v-model="formData.code"
           />
-          <Button class="send" @click="sendVerification">发送验证码</Button>
+          <Button class="send" @click="sendVerification" :disabled="isCounting">
+            {{ isCounting ? `${count}s后可继续发送` : '发送验证码' }}
+          </Button>
         </div>
         <div class="input-error">
           <span>{{ errors['code'].length !== 0 ? errors['code'][0] : '　' }}</span>
@@ -45,8 +47,9 @@
 <script setup lang="ts">
 import Navbar from '../shared/Navbar.vue'
 import Button from '../shared/Button.vue'
-import { reactive, toRaw } from 'vue'
+import { computed, reactive, ref, toRaw } from 'vue'
 import { Rules, validata } from '../utils/validata'
+// import axios from 'axios'
 
 const formData = reactive({
   email: '',
@@ -82,12 +85,37 @@ const onSubmit = (e: Event) => {
   showErrors.codeError = toRaw(errors.code).toString()
 }
 
-function sendVerification(e: Event) {
-  // 防止点击发送验证码
+const timer = ref()
+const count = ref<number>(10)
+const isCounting = computed(() => {
+  if (count.value !== 10 && count.value !== 0) {
+    return true
+  } else {
+    return false
+  }
+})
+console.log(isCounting.value)
+const countDowm = () => {
+  timer.value = setInterval(() => {
+    count.value -= 1
+    if (count.value === 0) {
+      clearInterval(timer.value)
+      timer.value = null
+      count.value = 10
+    }
+  }, 1000)
+}
+const sendVerification = async (e: Event) => {
   e.preventDefault()
   if (formData.email == '') {
-    alert('请先输入邮箱地址')
+    console.log('请先输入邮箱地址')
+    return
   }
+  // const response = await axios.post('/api/v1/validation_codes', {
+  //   email: formData.email
+  // })
+  // console.log(response)
+  countDowm()
 }
 </script>
 
@@ -144,6 +172,10 @@ function sendVerification(e: Event) {
       .send {
         flex-grow: 1;
         height: 48px;
+      }
+      .send[disabled]{
+        opacity: 0.7;
+        cursor: not-allowed;
       }
     }
 
