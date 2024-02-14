@@ -15,11 +15,12 @@
     <form class="main" :onSubmit="onSubmit">
       <div class="email">
         <span class="title">邮箱地址</span>
-        <input type="email" placeholder="请输入邮箱，然后点击发送验证码" v-model="formData.email" />
+        <input type="text" placeholder="请输入邮箱，然后点击发送验证码" v-model="formData.email" />
         <div class="input-error">
-          <!-- <span>{{ errors['email'] ? errors['email'][0] : "&nbsp" }}</span> -->
-          <span v-show="showErrors.emailError">{{ showErrors.emailError }}</span>
-          <span v-show="showErrors.emailError === ''" class="space">&nbsp</span>
+          <span>{{ errors['email'] ? errors['email'][0] : '&nbsp' }}</span>
+          <span class="space">&nbsp</span>
+          <!-- <span v-show="showErrors.emailError">{{ showErrors.emailError }}</span>
+          <span v-show="showErrors.emailError === ''" class="space">&nbsp</span> -->
         </div>
       </div>
       <div class="verification">
@@ -42,13 +43,12 @@
       <Button class="login-btn">登录</Button>
     </form>
   </div>
-
 </template>
 
 <script setup lang="ts">
 import Navbar from '../shared/Navbar.vue'
 import Button from '../shared/Button.vue'
-import { computed, reactive, ref, toRaw } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { Rules, validata } from '../utils/validata'
 import yierRequest1 from '../service'
 
@@ -61,11 +61,6 @@ const errors = reactive({
   email: [],
   code: []
 })
-
-const showErrors = {
-  emailError: '',
-  codeError: ''
-}
 
 const onSubmit = (e: Event) => {
   e.preventDefault()
@@ -81,55 +76,67 @@ const onSubmit = (e: Event) => {
     code: []
   })
   Object.assign(errors, validata(formData, rules))
-
-  showErrors.emailError = toRaw(errors.email).toString()
-  showErrors.codeError = toRaw(errors.code).toString()
 }
 
 const MAX_COUNT = 10
 const timer = ref()
 const count = ref<number>(MAX_COUNT)
-const isCounting = computed(() => {
-  if (count.value !== 10 && count.value !== 0) {
-    return true
-  } else {
-    return false
-  }
-})
-// console.log(isCounting.value)
+// const isCounting = computed(() => {
+//   if (count.value !== MAX_COUNT && count.value !== 0) {
+//     return true
+//   } else {
+//     return false
+//   }
+// })
+const isCounting = computed(() => !!timer.value)
 const countDowm = () => {
   timer.value = setInterval(() => {
     count.value -= 1
     if (count.value === 0) {
       clearInterval(timer.value)
-      timer.value = null
+      timer.value = undefined
       count.value = MAX_COUNT
     }
   }, 1000)
 }
+
 const sendVerification = async (e: Event) => {
+  console.log(isCounting.value)
+  errors.email = []
+  errors.code = []
   e.preventDefault()
   if (formData.email == '') {
     console.log('请先输入邮箱地址')
     return
   }
-  const response = await yierRequest1.post({
-    url:'/api/v1/validation_codes',
-    params:{
-      email:formData.email
-    }
-  }).catch(()=>{
-    console.log('验证码发送失败')
-  })
-  console.log(response)
-  countDowm()
+  await yierRequest1
+    .post({
+      url: '/api/v1/validation_codes',
+      params: {
+        email: formData.email
+      }
+    })
+    .then(() => {
+      countDowm()
+    })
+    .catch((err) => {
+      console.log('catch')
+      console.log(err)
+      if (err.response.status === 422) {
+        errors.email = err.response.data.errors.email
+      }
+    })
 }
 </script>
-
+0
 <style lang="less" scoped>
 .sign-in {
   color: blueviolet;
-
+  .space {
+    background-color: #554646;
+    // display: none;
+    opacity: 0;
+  }
   .logo {
     display: flex;
     flex-direction: column;
@@ -180,7 +187,7 @@ const sendVerification = async (e: Event) => {
         flex-grow: 1;
         height: 48px;
       }
-      .send[disabled]{
+      .send[disabled] {
         opacity: 0.7;
         cursor: not-allowed;
       }

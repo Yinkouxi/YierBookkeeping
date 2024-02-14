@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AxiosInstance } from 'axios'
+import type { AxiosError, AxiosInstance } from 'axios'
 import { YierRequestConfig } from './type'
 
 class YierRequest {
@@ -12,21 +12,28 @@ class YierRequest {
     // 全局拦截器(每个实例都添加)
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('全局请求成功拦截')
+        // console.log('全局请求成功拦截')
         return config
       },
       (err) => {
-        console.log('全局请求失败拦截')
+        // console.log('全局请求失败拦截')
         return err
       }
     )
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('全局响应成功拦截')
+        // console.log('全局响应成功拦截')
         return res.data
       },
       (err) => {
-        return err
+        if(err.response){
+          const axiosError = err as AxiosError
+          if(axiosError.response?.status===429){
+            alert('请求太频繁了，请稍后再试')
+          }
+        }
+        // console.log(err.response.status,'err status')
+        throw err
       }
     )
     // 针对特定实例添加拦截器
@@ -58,6 +65,8 @@ class YierRequest {
         })
         .catch((err) => {
           reject(err)
+          // console.log(err)
+          // throw err
         })
     })
   }

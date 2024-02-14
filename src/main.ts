@@ -7,7 +7,7 @@ import router from './router'
 import 'virtual:svg-icons-register'
 import globalComponent from './shared/index'
 
-import "@/service/modules/test"
+// import "@/service/modules/test"
 
 const app = createApp(App)
 app.use(router)
