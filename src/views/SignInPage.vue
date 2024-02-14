@@ -42,6 +42,7 @@
       <Button class="login-btn">登录</Button>
     </form>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -49,10 +50,10 @@ import Navbar from '../shared/Navbar.vue'
 import Button from '../shared/Button.vue'
 import { computed, reactive, ref, toRaw } from 'vue'
 import { Rules, validata } from '../utils/validata'
-// import axios from 'axios'
+import yierRequest1 from '../service'
 
 const formData = reactive({
-  email: '',
+  email: '3405176636@qq.com',
   code: ''
 })
 
@@ -85,8 +86,9 @@ const onSubmit = (e: Event) => {
   showErrors.codeError = toRaw(errors.code).toString()
 }
 
+const MAX_COUNT = 10
 const timer = ref()
-const count = ref<number>(10)
+const count = ref<number>(MAX_COUNT)
 const isCounting = computed(() => {
   if (count.value !== 10 && count.value !== 0) {
     return true
@@ -94,14 +96,14 @@ const isCounting = computed(() => {
     return false
   }
 })
-console.log(isCounting.value)
+// console.log(isCounting.value)
 const countDowm = () => {
   timer.value = setInterval(() => {
     count.value -= 1
     if (count.value === 0) {
       clearInterval(timer.value)
       timer.value = null
-      count.value = 10
+      count.value = MAX_COUNT
     }
   }, 1000)
 }
@@ -111,10 +113,15 @@ const sendVerification = async (e: Event) => {
     console.log('请先输入邮箱地址')
     return
   }
-  // const response = await axios.post('/api/v1/validation_codes', {
-  //   email: formData.email
-  // })
-  // console.log(response)
+  const response = await yierRequest1.post({
+    url:'/api/v1/validation_codes',
+    params:{
+      email:formData.email
+    }
+  }).catch(()=>{
+    console.log('验证码发送失败')
+  })
+  console.log(response)
   countDowm()
 }
 </script>
