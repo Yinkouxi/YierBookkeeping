@@ -1,6 +1,8 @@
 <template>
   <div class="welcome-page">
-    <router-link class="pass-welcome" to="/start">跳过</router-link>
+    <span @click="skipAds" class="pass-welcome">
+      <router-link  to="/start" class="pass-text">跳过</router-link>
+    </span>
     <div class="logo">
       <svg style="width: 128px">
         <use xlink:href="#icon-logo"></use>
@@ -14,7 +16,12 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const skipAds =()=>{
+  localStorage.setItem('skipAdsed','yes')
+}
+
+</script>
 
 <style lang="less" scoped>
 .welcome-page {
@@ -31,6 +38,10 @@
     font-size: 32px;
     font-weight: 700;
     color: #fff;
+
+    .pass-text{
+      color: #e0e0ec;
+    }
   }
   .logo {
     margin-top: 60px;

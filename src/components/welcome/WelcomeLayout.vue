@@ -11,12 +11,15 @@
       <h1>{{ slogan1 }}</h1>
       <h1>{{ slogan2 }}</h1>
     </div>
-    <router-link class="next-page" :to="nextPage">{{ nextText }}</router-link>
+    <router-link class="next-page" :to="nextPage" @click="skipAds">{{ nextText }}</router-link>
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouteLocationRaw } from 'vue-router'
+const skipAds =()=>{
+  localStorage.setItem('skipAdsed','yes')
+}
 defineProps({
   iconName: {
     type: String

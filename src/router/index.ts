@@ -1,4 +1,3 @@
-import path from 'path'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 // 使用() => import() 来实现懒加载
@@ -11,6 +10,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/welcome',
     component: () => import('@/views/WelcomePage.vue'),
+    beforeEnter: (_to, _from, next) => {
+      localStorage.getItem('skipAdsed') === 'yes' ? next('/start') : next()
+    },
     children: [
       {
         path: '',
@@ -49,25 +51,25 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path:'/tags', 
-    component:()=> import('@/views/Tagpage.vue'),
-    children:[
-      {path:'create',component:()=>import('@/components/tag/TagCreate.vue')},
-      {path:':id/edit',component:()=>import('@/components/tag/TagEdit.vue')}
+    path: '/tags',
+    component: () => import('@/views/Tagpage.vue'),
+    children: [
+      { path: 'create', component: () => import('@/components/tag/TagCreate.vue') },
+      { path: ':id/edit', component: () => import('@/components/tag/TagEdit.vue') }
     ]
   },
   {
-    path:'/sign_in',
-    component:()=> import('@/views/SignInPage.vue')
+    path: '/sign_in',
+    component: () => import('@/views/SignInPage.vue')
   },
   {
-    path:'/statistics',
-    component:()=> import('@/views/StatisticsPage.vue')
+    path: '/statistics',
+    component: () => import('@/views/StatisticsPage.vue')
   },
   // 路径不匹配时显示notfound页面
   {
     path: '/:pathMatch(.*)',
-    component: () => import('@/views/NotFound.vue'),
+    component: () => import('@/views/NotFound.vue')
   }
 ]
 
