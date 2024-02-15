@@ -51,7 +51,10 @@ import Button from '../shared/Button.vue'
 import { computed, reactive, ref } from 'vue'
 import { Rules, validata } from '../utils/validata'
 import yierRequest1 from '../service'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
+const route = useRoute()
 const formData = reactive({
   email: '3405176636@qq.com',
   code: ''
@@ -62,7 +65,19 @@ const errors = reactive({
   code: []
 })
 
-const onSubmit = (e: Event) => {
+const hasError = (errors: Record<string, string[]>) => {
+  let res = false
+  for (let key in errors) {
+    if (errors[key].length > 0) {
+      res = true
+      break
+    }
+  }
+  console.log(res, 'res--------')
+  return res
+}
+
+const onSubmit = async (e: Event) => {
   e.preventDefault()
   const rules: Rules<typeof formData> = [
     { key: 'email', type: 'required', message: '必填' },
@@ -76,6 +91,24 @@ const onSubmit = (e: Event) => {
     code: []
   })
   Object.assign(errors, validata(formData, rules))
+
+  // 如果校验没有错误，发送登录请求
+  if (!hasError(errors)) {
+    // console.log(errors, 'eeee')
+    console.log('no error')
+    const response = await yierRequest1.post({
+      url: '/api/v1/session',
+      params: {
+        email: formData.email,
+        code: formData.code
+      }
+    })
+    console.log(response.jwt)
+    localStorage.setItem('jwt', response.jwt)
+    // router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
+    const returnTo = route.query.return_to?.toString()
+    router.push(returnTo ? returnTo : '/')
+  }
 }
 
 const MAX_COUNT = 10
@@ -88,7 +121,7 @@ const count = ref<number>(MAX_COUNT)
 //     return false
 //   }
 // })
-const isCounting = computed(() => !!timer.value)
+let isCounting = computed(() => !!timer.value)
 const countDowm = () => {
   timer.value = setInterval(() => {
     count.value -= 1
