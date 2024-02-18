@@ -94,7 +94,6 @@ const onSubmit = async (e: Event) => {
 
   // 如果校验没有错误，发送登录请求
   if (!hasError(errors)) {
-    // console.log(errors, 'eeee')
     console.log('no error')
     const response = await yierRequest1.post({
       url: '/api/v1/session',
@@ -103,10 +102,16 @@ const onSubmit = async (e: Event) => {
         code: formData.code
       }
     })
-    console.log(response.jwt)
     localStorage.setItem('jwt', response.jwt)
     // router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
+    // const returnTo = route.query.return_to?.toString()
+    // refreshMe().then(()=>{
+    //   router.push(returnTo ? returnTo : '/')
+    // }).catch(()=>{
+    //   alert('登录失败')
+    // })
     const returnTo = route.query.return_to?.toString()
+    console.log(returnTo,'returnto---')
     router.push(returnTo ? returnTo : '/')
   }
 }

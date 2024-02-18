@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { refreshMe } from '../service/login/refreshMe'
 
 // 使用() => import() 来实现懒加载
 const routes: Array<RouteRecordRaw> = [
@@ -44,6 +45,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/items',
     component: () => import('@/views/ItemPage.vue'),
+    beforeEnter: async (to, _from, next) => {
+      await refreshMe().catch(() => {
+        next('/sign_in?return_to=' + to.path)
+      })
+      next()
+    },
     children: [
       { path: '', redirect: '/items/list' },
       { path: 'list', component: () => import('@/components/item/ItemList.vue') },
@@ -77,5 +84,15 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: routes
 })
+
+// router.beforeEach(async (to, _form) => {
+//   if (to.path === '/' || to.path.startsWith('/welocme') || to.path.startsWith('/sign_in')) {
+//     return true
+//   } else {
+//     const path = await refreshMe().then(
+//     )
+//     return path
+//   }
+// })
 
 export default router
