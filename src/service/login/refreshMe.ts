@@ -23,6 +23,5 @@ export async function refreshMe() {
       },
       method: 'get'
     })
-  // console.log('come')
   console.log(res)
 }

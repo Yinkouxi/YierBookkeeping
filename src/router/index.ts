@@ -45,12 +45,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/items',
     component: () => import('@/views/ItemPage.vue'),
-    beforeEnter: async (to, _from, next) => {
-      await refreshMe().catch(() => {
-        next('/sign_in?return_to=' + to.path)
-      })
-      next()
-    },
+    // beforeEnter: async (to, _from, next) => {
+    //   await refreshMe().catch(() => {
+    //     next('/sign_in?return_to=' + to.path)
+    //   })
+    //   next()
+    // },
     children: [
       { path: '', redirect: '/items/list' },
       { path: 'list', component: () => import('@/components/item/ItemList.vue') },
@@ -60,6 +60,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tags',
     component: () => import('@/views/Tagpage.vue'),
+    // beforeEnter: async (to, _from, next) => {
+    //   await refreshMe().catch(() => {
+    //     next('/sign_in?return_to=' + to.path)
+    //   })
+    //   next()
+    // },
     children: [
       { path: 'create', component: () => import('@/components/tag/TagCreate.vue') },
       { path: ':id/edit', component: () => import('@/components/tag/TagEdit.vue') }
@@ -67,10 +73,17 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/sign_in',
+    name: 'sign_in',
     component: () => import('@/views/SignInPage.vue')
   },
   {
     path: '/statistics',
+    // beforeEnter: async (to, _from, next) => {
+    //   await refreshMe().catch(() => {
+    //     next('/sign_in?return_to=' + to.path)
+    //   })
+    //   next()
+    // },
     component: () => import('@/views/StatisticsPage.vue')
   },
   // 路径不匹配时显示notfound页面
@@ -95,4 +108,42 @@ const router = createRouter({
 //   }
 // })
 
+// router.beforeEach(async (to, _from, next) => {
+//   await refreshMe().catch(() => {
+//     next('/sign_in?return_to=' + to.path)
+//   })
+//   next()
+// })
+
+router.beforeEach(async (to, from) => {
+  if (
+    to.path === '/' ||
+    to.path.startsWith('/welcome') ||
+    to.path.startsWith('/sign_in') ||
+    to.path.startsWith('/start')
+  ) {
+    return true
+  } else {
+    // 验证登录是否登录、jwt是否有效
+    await refreshMe().catch(() => {
+      localStorage.removeItem('jwt')
+    })
+
+    if (!localStorage.getItem('jwt')) {
+      // 未登录或jwt失效，携带当前路径进入登录页面
+      return 'sign_in?return_to=' + to.path
+    } else {
+      return true
+    }
+    // await refreshMe().catch((err) => {
+    //   console.log(err, 'err')
+    //   const newTo = 'sign_in?return_to=' + to.path
+    //   console.log('newTo', newTo)
+    //   return 'sign_in'
+    //   // console.log(newTo)
+    //   // return 'sign_in'
+    // })
+  }
+  return true
+})
 export default router
