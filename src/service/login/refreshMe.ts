@@ -4,7 +4,6 @@ console.log('test')
 const jwt = localStorage.getItem('jwt')
 
 export async function refreshMe() {
-  console.log(jwt)
   const res = await yierRequest1
     .request({
       url: '/api/v1/me',

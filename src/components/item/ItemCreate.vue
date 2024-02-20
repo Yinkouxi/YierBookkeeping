@@ -55,88 +55,61 @@
 import Navbar from '@/shared/Navbar.vue'
 import Tabs from '../../shared/Tabs.vue'
 import Tab from '../../shared/Tab.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import InputPad from '../../shared/InputPad.vue'
-
+import yierRequest1 from '../../service'
+import { Tag, Resources } from '../../assets/type/index.ts'
 let tabsKind = ref('支出')
 function updateSelected(tabTitle: string) {
   tabsKind.value = tabTitle
 }
 
-const spendingTags = ref([
-  { id: 1, name: '餐费', sign: '￥', category: 'spending' },
-  { id: 2, name: '打车', sign: '￥', category: 'spending' },
-  { id: 3, name: '聚餐', sign: '￥', category: 'spending' },
-  { id: 4, name: '住宿', sign: '￥', category: 'spending' },
-  { id: 5, name: '水果', sign: '￥', category: 'spending' },
-  { id: 6, name: '恋爱', sign: '￥', category: 'spending' },
-  { id: 7, name: '其他', sign: '￥', category: 'spending' }
-])
+const spendingTags = ref<Tag[]>([])
+const incomeTags = ref<Tag[]>([])
+onMounted(async () => {
+  await yierRequest1
+    .get<Resources<Tag>>({
+      url: '/api/v1/tags',
+      params: {
+        kind: 'expenses'
+      },
+      headers: {
+        Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
+      }
+    })
+    .then(
+      (res) => {
+        console.log(res, 'res')
+        spendingTags.value = res.resources
+      },
+      (err) => {
+        console.log('tag list err', err)
+      }
+    )
 
-const incomeTags = ref([
-  { id: 4, name: '工资', sign: '￥', category: 'income' },
-  { id: 5, name: '彩票', sign: '￥', category: 'income' },
-  { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 11, name: '彩票', sign: '￥', category: 'income' },
-  { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 17, name: '彩票', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 4, name: '工资', sign: '￥', category: 'income' },
-  { id: 5, name: '彩票', sign: '￥', category: 'income' },
-  { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 11, name: '彩票', sign: '￥', category: 'income' },
-  { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 17, name: '彩票', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 4, name: '工资', sign: '￥', category: 'income' },
-  { id: 5, name: '彩票', sign: '￥', category: 'income' },
-  { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 11, name: '彩票', sign: '￥', category: 'income' },
-  { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 17, name: '彩票', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 4, name: '工资', sign: '￥', category: 'income' },
-  { id: 5, name: '彩票', sign: '￥', category: 'income' },
-  { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 11, name: '彩票', sign: '￥', category: 'income' },
-  { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 17, name: '彩票', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 4, name: '工资', sign: '￥', category: 'income' },
-  { id: 5, name: '彩票', sign: '￥', category: 'income' },
-  { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 11, name: '彩票', sign: '￥', category: 'income' },
-  { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 17, name: '彩票', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-  { id: 19, name: '滴滴', sign: '￥', category: 'income' }
-])
+  await yierRequest1
+    .get<{ resources: Tag[] }>({
+      url: '/api/v1/tags',
+      params: {
+        kind: 'income'
+      },
+      headers: {
+        Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
+      }
+    })
+    .then(
+      (res) => {
+        incomeTags.value = res.resources
+      },
+      (err) => {
+        console.log('tag list err', err)
+      }
+    )
+})
 </script>
 
 <style lang="less" scoped>
 .item-create {
-
   .tabs {
     flex-grow: 1;
     flex-shrink: 1;

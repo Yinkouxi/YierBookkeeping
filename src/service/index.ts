@@ -5,20 +5,7 @@ const yierRequest1 = new YierRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
 
-  // interceptors: {
-  //   requestSuccessFn: (config) => {
-  //     console.log('实例请求成功拦截')
-  //     const jwt = localStorage.getItem('jwt')
-  //     if (jwt) {
-  //       refreshMe().catch((err)=>{
-  //         console.log(err)
-  //       })
-  //     }else{
-  //       console.log('no jwt')
-  //     }
-  //     return config
-  //   }
-  // }
+
 
   // interceptors:{
   //   requestSuccessFn:(config)=>{
