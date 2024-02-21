@@ -21,8 +21,13 @@
               <span class="tag-name">新增</span>
             </div>
             <!-- 标签列表 -->
-            <div class="tag-wrapper" v-for="(tag, index) in spendingTags" :key="index">
-              <div class="tag-sign">{{ tag.sign }}</div>
+            <div
+              class="tag-wrapper"
+              v-for="(tag, index) in spendingTags"
+              :key="index"
+              @click="tagSelected(tag.id)"
+            >
+              <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">{{ tag.sign }}</div>
               <span class="tag-name">{{ tag.name }}</span>
             </div>
           </div>
@@ -37,8 +42,15 @@
               <span class="tag-name">新增</span>
             </div>
             <!-- 标签列表 -->
-            <div class="tag-wrapper" v-for="(tag, index) in incomeTags" :key="index">
-              <div class="tag-sign">{{ tag.sign }}</div>
+            <div
+              class="tag-wrapper"
+              v-for="(tag, index) in incomeTags"
+              :key="index"
+              @click="tagSelected(tag.id)"
+            >
+              <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">
+                {{ tag.sign }}
+              </div>
               <div class="tag-name">{{ tag.name }}</div>
             </div>
           </div>
@@ -106,6 +118,16 @@ onMounted(async () => {
       }
     )
 })
+
+const selectedTagId = ref<number>()
+const tagSelected = (id: number) => {
+  selectedTagId.value = id
+  console.log(selectedTagId.value)
+  console.log(id)
+}
+// const isSelected = computed(()=>{
+//   return
+// })
 </script>
 
 <style lang="less" scoped>
@@ -142,6 +164,9 @@ onMounted(async () => {
         background-color: @tag-bg-color;
         border: 1px solid @tag-border-color;
         border-radius: 50%;
+      }
+      .selected {
+        background-color: @tag-selected-bg-color;
       }
       .tag-name {
         font-size: 12px;
