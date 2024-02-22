@@ -27,9 +27,20 @@
 import { ref } from 'vue'
 import { Time } from '../utils/time'
 
+const emit = defineEmits(['sendTimeAndAmount'])
+
 const amount = ref('0')
 const now = new Date()
 const currentDate = ref(new Time(now).format().split('-'))
+// const currentDate = ref(new Time(now))
+// console.log(currentDate.value.date, 'zje;o')
+// let showDate = ref(new Time(now).format().split('-'))
+// // const showDate = computed(()=>{
+// //   const t = currentDate.value.format()
+// //   return t.split('-')
+// //   })
+// console.log(new Time(showDate.toString()),'show')
+
 const showPop = ref(false)
 
 const showDatePicker = () => {
@@ -44,51 +55,124 @@ const cancelDatePicker = () => {
   hideDatePicker()
 }
 const setDate = (datePic: any) => {
+  console.log(datePic, 'datapic')
   currentDate.value = datePic.selectedValues
+
   hideDatePicker()
 }
 const appendText = (n: number | string) => {
-      const nString = n.toString()
-      const dotIndex = amount.value.indexOf('.')
-      if (amount.value.length >= 13) {
-        return
-      }
-      if (dotIndex >= 0 && amount.value.length - dotIndex > 2) {
-        return
-      }
-      if (nString === '.') {
-        if (dotIndex >= 0) { // 已经有小数点了
-          return
-        }
-      } else if (nString === '0') {
-        if (dotIndex === -1) { // 没有小数点
-          if (amount.value === '0') { // 没小数点，但是有0
-            return
-          }
-        }
-      } else {
-        if (amount.value === '0') {
-          amount.value = ''
-        }
-      }
-      amount.value += n.toString()
+  const nString = n.toString()
+  const dotIndex = amount.value.indexOf('.')
+  if (amount.value.length >= 13) {
+    return
+  }
+  if (dotIndex >= 0 && amount.value.length - dotIndex > 2) {
+    return
+  }
+  if (nString === '.') {
+    if (dotIndex >= 0) {
+      // 已经有小数点了
+      return
     }
-
+  } else if (nString === '0') {
+    if (dotIndex === -1) {
+      // 没有小数点
+      if (amount.value === '0') {
+        // 没小数点，但是有0
+        return
+      }
+    }
+  } else {
+    if (amount.value === '0') {
+      amount.value = ''
+    }
+  }
+  amount.value += n.toString()
+}
 
 const buttons = [
-  { text: '1', onclick: () => { appendText(1)} },
-  { text: '2', onclick: () => { appendText(2)} },
-  { text: '3', onclick: () => { appendText(3)} },
-  { text: '4', onclick: () => { appendText(4)} },
-  { text: '5', onclick: () => { appendText(5)} },
-  { text: '6', onclick: () => { appendText(6)} },
-  { text: '7', onclick: () => { appendText(7)} },
-  { text: '8', onclick: () => { appendText(8)} },
-  { text: '9', onclick: () => { appendText(9)} },
-  { text: '.', onclick: () => { appendText('.')} },
-  { text: '0', onclick: () => { appendText(0)} },
-  { text: '清空', onclick: () => { amount.value = '0'} },
-  { text: '提交', onclick: () => { console.log('提交成功')} }
+  {
+    text: '1',
+    onclick: () => {
+      appendText(1)
+    }
+  },
+  {
+    text: '2',
+    onclick: () => {
+      appendText(2)
+    }
+  },
+  {
+    text: '3',
+    onclick: () => {
+      appendText(3)
+    }
+  },
+  {
+    text: '4',
+    onclick: () => {
+      appendText(4)
+    }
+  },
+  {
+    text: '5',
+    onclick: () => {
+      appendText(5)
+    }
+  },
+  {
+    text: '6',
+    onclick: () => {
+      appendText(6)
+    }
+  },
+  {
+    text: '7',
+    onclick: () => {
+      appendText(7)
+    }
+  },
+  {
+    text: '8',
+    onclick: () => {
+      appendText(8)
+    }
+  },
+  {
+    text: '9',
+    onclick: () => {
+      appendText(9)
+    }
+  },
+  {
+    text: '.',
+    onclick: () => {
+      appendText('.')
+    }
+  },
+  {
+    text: '0',
+    onclick: () => {
+      appendText(0)
+    }
+  },
+  {
+    text: '清空',
+    onclick: () => {
+      amount.value = '0'
+    }
+  },
+  {
+    text: '提交',
+    onclick: () => {
+      emit(
+        'sendTimeAndAmount',
+        new Date(currentDate.value.toString().split(',').join('-')).toISOString(),
+        10*Number(amount.value)
+      )
+    }
+  }
 ]
 </script>
 

@@ -25,9 +25,11 @@
               class="tag-wrapper"
               v-for="(tag, index) in spendingTags"
               :key="index"
-              @click="tagSelected(tag.id)"
+              @click="tagSelected(tag.id, tag.kind)"
             >
-              <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">{{ tag.sign }}</div>
+              <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">
+                {{ tag.sign }}
+              </div>
               <span class="tag-name">{{ tag.name }}</span>
             </div>
           </div>
@@ -46,7 +48,7 @@
               class="tag-wrapper"
               v-for="(tag, index) in incomeTags"
               :key="index"
-              @click="tagSelected(tag.id)"
+              @click="tagSelected(tag.id, tag.kind)"
             >
               <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">
                 {{ tag.sign }}
@@ -58,7 +60,7 @@
       </Tabs>
     </div>
     <div class="input-pad-wrapper">
-      <InputPad />
+      <InputPad @sendTimeAndAmount="getTimeAndAmount" />
     </div>
   </div>
 </template>
@@ -78,6 +80,7 @@ function updateSelected(tabTitle: string) {
 
 const spendingTags = ref<Tag[]>([])
 const incomeTags = ref<Tag[]>([])
+
 onMounted(async () => {
   await yierRequest1
     .get<Resources<Tag>>({
@@ -91,7 +94,6 @@ onMounted(async () => {
     })
     .then(
       (res) => {
-        console.log(res, 'res')
         spendingTags.value = res.resources
       },
       (err) => {
@@ -120,14 +122,23 @@ onMounted(async () => {
 })
 
 const selectedTagId = ref<number>()
-const tagSelected = (id: number) => {
+const tagSelected = (id: number, kind: string) => {
   selectedTagId.value = id
-  console.log(selectedTagId.value)
-  console.log(id)
+  console.log(id, 'id---')
+  accountingData.tagIds.value = id
+  accountingData.kind.value = kind
 }
-// const isSelected = computed(()=>{
-//   return
-// })
+
+const accountingData = {
+  amount: ref<number>(0),
+  kind: ref<string>(),
+  happendAt: ref<string>(),
+  tagIds: ref<number>(0)
+}
+function getTimeAndAmount(currentDate: string, amount: number) {
+  accountingData.amount.value = amount
+  accountingData.happendAt.value = currentDate
+}
 </script>
 
 <style lang="less" scoped>
