@@ -11,6 +11,7 @@
               title="选择日期"
               @cancel="cancelDatePicker"
               @confirm="setDate"
+              @change="changeDate"
             />
           </van-popup>
         </span>
@@ -32,15 +33,8 @@ const emit = defineEmits(['sendTimeAndAmount'])
 const amount = ref('0')
 const now = new Date()
 const currentDate = ref(new Time(now).format().split('-'))
-// const currentDate = ref(new Time(now))
-// console.log(currentDate.value.date, 'zje;o')
-// let showDate = ref(new Time(now).format().split('-'))
-// // const showDate = computed(()=>{
-// //   const t = currentDate.value.format()
-// //   return t.split('-')
-// //   })
-// console.log(new Time(showDate.toString()),'show')
-
+const isToday = ref(true)
+let accountingTime = new Time(now).date.toISOString()
 const showPop = ref(false)
 
 const showDatePicker = () => {
@@ -50,15 +44,26 @@ const hideDatePicker = () => {
   showPop.value = false
 }
 const cancelDatePicker = () => {
+  console.log('Cancel')
   //点击取消更新为当天时间
   currentDate.value = new Time(now).format().split('-')
+  isToday.value = true
   hideDatePicker()
 }
-const setDate = (datePic: any) => {
-  console.log(datePic, 'datapic')
-  currentDate.value = datePic.selectedValues
 
+const judgeIsToday = (customDate: string[]) => {
+  if (customDate !== new Time(now).format().split('-')) {
+    isToday.value = false
+  } else {
+    isToday.value = true
+  }
+}
+const setDate = (currentDate: string[]) => {
+  judgeIsToday(currentDate)
   hideDatePicker()
+}
+const changeDate = (currentDate: string[]) => {
+  judgeIsToday(currentDate)
 }
 const appendText = (n: number | string) => {
   const nString = n.toString()
@@ -89,6 +94,7 @@ const appendText = (n: number | string) => {
   }
   amount.value += n.toString()
 }
+
 
 const buttons = [
   {
@@ -166,11 +172,13 @@ const buttons = [
   {
     text: '提交',
     onclick: () => {
-      emit(
-        'sendTimeAndAmount',
-        new Date(currentDate.value.toString().split(',').join('-')).toISOString(),
-        10*Number(amount.value)
-      )
+      // 用户选择时间为今天
+      if (isToday.value === true) {
+        accountingTime = new Time(now).date.toISOString()
+      } else {
+        accountingTime = new Date(currentDate.value.toString().split(',').join('-')).toISOString()
+      }
+      emit('sendTimeAndAmount', accountingTime, 100 * Number(amount.value))
     }
   }
 ]

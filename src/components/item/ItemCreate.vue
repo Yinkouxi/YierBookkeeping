@@ -69,10 +69,11 @@
 import Navbar from '@/shared/Navbar.vue'
 import Tabs from '../../shared/Tabs.vue'
 import Tab from '../../shared/Tab.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import InputPad from '../../shared/InputPad.vue'
 import yierRequest1 from '../../service'
 import { Tag, Resources } from '../../assets/type/index.ts'
+import { useRouter } from 'vue-router'
 let tabsKind = ref('支出')
 function updateSelected(tabTitle: string) {
   tabsKind.value = tabTitle
@@ -88,9 +89,9 @@ onMounted(async () => {
       params: {
         kind: 'expenses'
       },
-      headers: {
-        Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
-      }
+      // headers: {
+      //   Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
+      // }
     })
     .then(
       (res) => {
@@ -107,9 +108,9 @@ onMounted(async () => {
       params: {
         kind: 'income'
       },
-      headers: {
-        Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
-      }
+      // headers: {
+      //   Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
+      // }
     })
     .then(
       (res) => {
@@ -121,23 +122,48 @@ onMounted(async () => {
     )
 })
 
+type accountingData = {
+  kind: 'expenses' | 'inocme' | string
+  tag_ids: number[]
+  amount: number
+  happen_at: string
+}
+
+const accountingData = reactive<accountingData>({
+  kind: 'expenses',
+  amount: 0,
+  happen_at: '',
+  tag_ids: []
+})
 const selectedTagId = ref<number>()
 const tagSelected = (id: number, kind: string) => {
   selectedTagId.value = id
-  console.log(id, 'id---')
-  accountingData.tagIds.value = id
-  accountingData.kind.value = kind
+  accountingData.tag_ids[0] = id
+  accountingData.kind = kind
 }
 
-const accountingData = {
-  amount: ref<number>(0),
-  kind: ref<string>(),
-  happendAt: ref<string>(),
-  tagIds: ref<number>(0)
-}
-function getTimeAndAmount(currentDate: string, amount: number) {
-  accountingData.amount.value = amount
-  accountingData.happendAt.value = currentDate
+const router = useRouter()
+async function getTimeAndAmount(currentDate: string, amount: number) {
+  accountingData.amount = amount
+  accountingData.happen_at = currentDate
+
+  console.log(accountingData, 'zheline')
+  await yierRequest1
+    .post({
+      url: '/api/v1/items',
+      data: {
+        kind: accountingData.kind,
+        amount: accountingData.amount,
+        happen_at: accountingData.happen_at,
+        tag_ids: accountingData.tag_ids
+      },
+    })
+    .then(() => {
+      router.push('/items')
+    })
+    .catch((err) => {
+      console.log('create err', err)
+    })
 }
 </script>
 

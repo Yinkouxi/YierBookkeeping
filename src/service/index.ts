@@ -5,7 +5,12 @@ const yierRequest1 = new YierRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
 
-
+  interceptors: {
+    requestSuccessFn: (config) => {
+      config.headers = { Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt') }
+      return config
+    }
+  }
 
   // interceptors:{
   //   requestSuccessFn:(config)=>{
