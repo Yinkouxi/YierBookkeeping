@@ -35,7 +35,7 @@ defineProps({
 })
 
 const tabSelected = ref(0)
-const emojiSelected = ref(0)
+const emojiSelected = ref()
 const table: [string, string[]][] = [
   [
     '表情',

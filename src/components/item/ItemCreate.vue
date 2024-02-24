@@ -3,7 +3,7 @@
     <div class="main-wrapper">
       <Navbar class="nav">
         <template #icon>
-          <svgIcon name="exit" color="white" width="26px" height="26px"></svgIcon>
+          <svgIcon name="exit" color="white" width="26px" height="26px" @click="exit"></svgIcon>
         </template>
         <template #title>
           <span>记一笔</span>
@@ -14,12 +14,7 @@
         <Tab title="支出">
           <div class="tag-list">
             <!-- 新增标签 -->
-            <div class="tag-wrapper">
-              <div class="tag-sign">
-                <svgIcon name="addTag" width="20px" height="20px"></svgIcon>
-              </div>
-              <span class="tag-name">新增</span>
-            </div>
+            <AddTag @click="addTag" />
             <!-- 标签列表 -->
             <div
               class="tag-wrapper"
@@ -37,12 +32,7 @@
         <Tab title="收入">
           <div class="tag-list">
             <!-- 新增标签 -->
-            <div class="tag-wrapper">
-              <div class="tag-sign">
-                <svgIcon name="addTag" width="20px" height="20px"></svgIcon>
-              </div>
-              <span class="tag-name">新增</span>
-            </div>
+            <AddTag @click="addTag" />
             <!-- 标签列表 -->
             <div
               class="tag-wrapper"
@@ -69,11 +59,12 @@
 import Navbar from '@/shared/Navbar.vue'
 import Tabs from '../../shared/Tabs.vue'
 import Tab from '../../shared/Tab.vue'
-import { onMounted, reactive, ref } from 'vue'
+import AddTag from './AddTag.vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import InputPad from '../../shared/InputPad.vue'
 import yierRequest1 from '../../service'
 import { Tag, Resources } from '../../assets/type/index.ts'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 let tabsKind = ref('支出')
 function updateSelected(tabTitle: string) {
   tabsKind.value = tabTitle
@@ -81,14 +72,35 @@ function updateSelected(tabTitle: string) {
 
 const spendingTags = ref<Tag[]>([])
 const incomeTags = ref<Tag[]>([])
-
+const route = useRoute()
+const newTagKind = computed(()=>{
+  return tabsKind.value==='支出'?'expenses':'income'
+})
+const exit = () => {
+  const { return_to } = route.query
+  if (return_to) {
+    router.push(return_to.toString())
+  } else {
+    router.back()
+  }
+  // router.push('/items/list')
+}
+const addTag = () => {
+  const return_to = route.path
+  console.log(newTagKind.value)
+  if (return_to) {
+    router.push('/tags/create?' +'kind='+newTagKind.value+ '&&return_to=' + return_to)
+  } else {
+    router.push('/tags/create')
+  }
+}
 onMounted(async () => {
   await yierRequest1
     .get<Resources<Tag>>({
       url: '/api/v1/tags',
       params: {
         kind: 'expenses'
-      },
+      }
       // headers: {
       //   Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
       // }
@@ -107,7 +119,7 @@ onMounted(async () => {
       url: '/api/v1/tags',
       params: {
         kind: 'income'
-      },
+      }
       // headers: {
       //   Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
       // }
@@ -156,7 +168,7 @@ async function getTimeAndAmount(currentDate: string, amount: number) {
         amount: accountingData.amount,
         happen_at: accountingData.happen_at,
         tag_ids: accountingData.tag_ids
-      },
+      }
     })
     .then(() => {
       router.push('/items')

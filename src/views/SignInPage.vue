@@ -73,7 +73,6 @@ const hasError = (errors: Record<string, string[]>) => {
       break
     }
   }
-  console.log(res, 'res--------')
   return res
 }
 

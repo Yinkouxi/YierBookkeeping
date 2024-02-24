@@ -10,6 +10,7 @@
           </div>
           <div class="input-error">
             <span>{{ errors['name'] ? errors['name'][0] : '　' }}</span>
+            <span class="space">&nbsp</span>
           </div>
         </label>
       </div>
@@ -21,6 +22,7 @@
           <EmojiSelect v-model="formData.sign"> </EmojiSelect>
           <div class="input-error">
             <span>{{ errors['sign'] ? errors['sign'][0] : '　' }}</span>
+            <span class="space">&nbsp</span>
           </div>
         </label>
       </div>
@@ -35,20 +37,41 @@
 <script setup lang="ts">
 import Button from '../../shared/Button.vue'
 import EmojiSelect from '@/shared/EmojiSelect.vue'
-import { reactive, toRaw } from 'vue'
+import { reactive } from 'vue'
 // import { Rules,validata} from '@/utils/validata.ts'
 import { Rules, validata } from '../../utils/validata'
-
+import { useRoute } from 'vue-router'
+import yierRequest1 from '../../service'
+import router from '../../router'
+const route = useRoute()
+const tagKind = route.query.kind || 'expenses'
+console.log(tagKind)
 const formData = reactive({
   name: '',
-  sign: '😀'
+  sign: ''
 })
-const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
-const onSubmit = (e: Event) => {
+
+// const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
+const errors = reactive({
+  name: [],
+  sign: []
+})
+
+function hasErrors(errors: { [x: string]: string | any[] }) {
+  for (const key in errors) {
+    if (errors[key]?.length) {
+      return true
+    }
+  }
+  return false
+}
+
+const onSubmit = async (e: Event) => {
+  e.preventDefault()
   const rules: Rules<typeof formData> = [
     { key: 'name', type: 'required', message: '必填' },
     { key: 'name', type: 'pattern', regex: /^.{2,4}$/, message: '只能填 2 到 4 个字符' },
-    { key: 'sign', type: 'required', message: '必填' }
+    { key: 'sign', type: 'required', message: '必选' }
   ]
   // 校验前先清空
   Object.assign(errors, {
@@ -56,9 +79,27 @@ const onSubmit = (e: Event) => {
     sign: undefined
   })
   Object.assign(errors, validata(formData, rules))
-  console.log(toRaw(formData))
   console.log(errors, '---')
-  e.preventDefault()
+  if (!hasErrors(errors)) {
+    console.log('没有err')
+    await yierRequest1
+      .post({
+        url: '/api/v1/tags',
+        data: {
+          kind: tagKind,
+          name: formData.name,
+          sign: formData.sign
+        }
+      })
+      .then(() => {
+        router.push('/items/create')
+      }).catch((err)=>{
+        console.log(err)
+      })
+  } else {
+    console.log('you err')
+    console.log(errors)
+  }
 }
 </script>
 
@@ -168,6 +209,11 @@ const onSubmit = (e: Event) => {
         width: 100%;
       }
     }
+  }
+  .space {
+    background-color: #554646;
+    // display: none;
+    opacity: 0;
   }
 }
 </style>
