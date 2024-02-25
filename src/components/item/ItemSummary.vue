@@ -3,139 +3,44 @@
     <ul class="total">
       <li class="spendding">
         <span>支出</span>
-        <span>456</span>
+        <span>{{ handleAmount(totalExpenses) }}</span>
       </li>
       <li class="income">
         <span>收入</span>
-        <span>1000</span>
+        <span>{{ handleAmount(totalIncome) }}</span>
       </li>
       <li class="net-income">
         <span>净收入</span>
-        <span>-544</span>
+        <span>{{ handleAmount(totalIncome - totalExpenses) }}</span>
       </li>
     </ul>
     <ol class="list">
-      <li>
+      <li v-for="item in items" :key="item.id">
         <div class="sign">
-          <span>😎</span>
+          <span>{{ item.tags?.[0].sign }}</span>
         </div>
         <div class="text">
           <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
+            <span class="tag">{{ item.tags?.[0].name }}</span>
+            <span class="amount">￥{{ handleAmount(item.amount) }}</span>
           </div>
-          <div class="time">2004-02-03 12:00</div>
+          <div class="time">{{ convertISOtoNormalDate(item.happen_at) }}</div>
         </div>
       </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      <li>
-        <div class="sign">
-          <span>😎</span>
-        </div>
-        <div class="text">
-          <div class="tag-amount">
-            <span class="tag">旅行</span>
-            <span class="amount">￥1234</span>
-          </div>
-          <div class="time">2004-02-03 12:00</div>
-        </div>
-      </li>
-      
     </ol>
     <div class="loading">
       <p>向下滑动加载更多</p>
     </div>
-    
   </div>
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
-
-defineProps({
+import { PropType, onMounted, ref } from 'vue'
+import yierRequest1 from '../../service'
+import { Item } from '../../assets/type'
+import { convertISOtoNormalDate } from '../../utils/time'
+import { handleAmount } from '../../utils/handleAmount.ts'
+const props = defineProps({
   startDate: {
     type: String as PropType<string>,
     require: true
@@ -145,7 +50,65 @@ defineProps({
     require: true
   }
 })
+const items = ref<Item[]>([])
+const page = ref(0)
+let totalExpenses = ref<number>(0)
+let totalIncome = ref<number>(0)
 
+onMounted(async () => {
+  if (!props.startDate || !props.endDate) {
+    return
+  }
+  await yierRequest1
+    .get({
+      url: '/api/v1/items',
+      params: {
+        page: page.value,
+        happened_after: props.startDate,
+        happened_before: props.endDate
+      }
+    })
+    .then((res) => {
+      items.value = res.resources
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+onMounted(() => {
+  // 获取支出总额
+  if (!props.startDate || !props.endDate) {
+    return
+  }
+  yierRequest1
+    .get({
+      url: '/api/v1/items/summary',
+      params: {
+        happened_after: props.startDate,
+        happened_before: props.endDate,
+        kind: 'expenses',
+        group_by: 'happened_at'
+      }
+    })
+    .then((res) => {
+      totalExpenses.value = res.total
+    })
+
+  yierRequest1
+    .get({
+      url: '/api/v1/items/summary',
+      params: {
+        happened_after: props.startDate,
+        happened_before: props.endDate,
+        kind: 'income',
+        group_by: 'happened_at'
+      }
+    })
+    .then((res) => {
+      totalIncome.value = res.total
+    })
+})
 </script>
 
 <style lang="less" scoped>
@@ -163,6 +126,7 @@ defineProps({
       display: flex;
       flex-direction: column;
       margin-top: 5px;
+      align-items: center;
     }
     .income {
       color: @item-total-income-text-color;
@@ -202,28 +166,27 @@ defineProps({
         flex-grow: 1;
         margin-left: 16px;
 
-        .tag-amount{
+        .tag-amount {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
 
-          .tag{
+          .tag {
             color: @item-list-tag-text-color;
           }
-          .amount{
+          .amount {
             color: @item-list-amount-text-color;
           }
         }
-        .time{
+        .time {
           margin-top: 8px;
           color: @item-list-time-text-color;
         }
       }
-
     }
   }
 
-  .loading{
+  .loading {
     margin-top: 30px;
     text-align: center;
     color: @item-list-loading-text-color;

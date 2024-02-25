@@ -15,3 +15,13 @@ export type Resources<T=any>={
     count:number
   }
 }
+
+export type Item = {
+  id: number;
+  user_id: number;
+  amount: number;
+  tag_ids: number[];
+  tags?: Tag[],
+  happen_at: string;
+  kind: 'expenses' | 'income';
+};

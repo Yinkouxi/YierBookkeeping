@@ -77,13 +77,13 @@ const newTagKind = computed(()=>{
   return tabsKind.value==='支出'?'expenses':'income'
 })
 const exit = () => {
-  const { return_to } = route.query
-  if (return_to) {
-    router.push(return_to.toString())
-  } else {
-    router.back()
-  }
-  // router.push('/items/list')
+  // const { return_to } = route.query
+  // if (return_to) {
+  //   router.push(return_to.toString())
+  // } else {
+  //   router.back()
+  // }
+  router.push('/items/list')
 }
 const addTag = () => {
   const return_to = route.path

@@ -74,7 +74,6 @@ const timeList = [
   { start: time.add(-1, 'month').firstDayofMonth(), end: time.add(-1, 'month').lastDayOfMonth() },
   { start: time.firstDayOfYear(), end: time.lastDayOfYear() }
 ]
-
 const customTime = reactive({
   start: new Time().format(),
   end: new Time().format()

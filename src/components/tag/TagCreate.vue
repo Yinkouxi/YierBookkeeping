@@ -26,6 +26,7 @@ const exit = () => {
   } else {
     router.back()
   }
+  // router.push('items/list')
 }
 </script>
 
