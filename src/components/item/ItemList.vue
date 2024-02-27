@@ -2,7 +2,7 @@
   <div class="itemlist">
     <Navbar>
       <template #icon >
-        <svgIcon name="menu" color="white" width="26px" height="26px" ></svgIcon>
+        <svgIcon name="menu" color="white" width="26px" height="26px" @click="menuClick"></svgIcon>
       </template>
       <template #title>
         <span>山竹记账</span>
@@ -58,7 +58,7 @@
       </div>
     </van-overlay>
     <FloatButton @click="startAccounting"/>
-    <Overlay v-show="menuVisible"></Overlay>
+    <Overlay v-show="menuVisible" @close-overlay="closeMenu"></Overlay>
   </div>
 
 </template>
@@ -86,7 +86,7 @@ function updateSelected(tabTitle: string) {
   tabsKind.value = tabTitle
   showOverlay()
 }
-const menuVisible = ref(true)
+const menuVisible = ref(false)
 const time = new Time()
 const timeList = [
   { start: time.firstDayofMonth(), end: time.lastDayOfMonth() },
@@ -105,7 +105,12 @@ function showOverlay() {
     overlayVisible.value = true
   }
 }
-
+const menuClick = ()=>{
+  menuVisible.value=!menuVisible.value
+}
+const closeMenu = ()=>{
+  menuVisible.value=false
+}
 const hiddenOverlay = () => {
   overlayVisible.value = false
 }

@@ -2,7 +2,7 @@
   <div class="statistics">
     <Navbar>
       <template #icon>
-        <svgIcon name="exit" color="white" width="26px" height="26px"></svgIcon>
+        <svgIcon name="exit" color="white" width="26px" height="26px" @click="exit"></svgIcon>
       </template>
       <template #title>
         <span>统计图表</span>
@@ -58,6 +58,7 @@ import Tab from '../shared/Tab.vue';
 import Charts from '../components/statistics/Charts.vue';
 import { reactive, ref } from 'vue';
 import { Time } from '../utils/time';
+import router from '../router';
 
 // Tabs切换绑定
 let tabsKind = ref('本月')
@@ -95,6 +96,10 @@ const protectContent = (e: Event) => {
 }
 const customSubmit = (e: Event) => {
   e.preventDefault()
+}
+
+const exit = ()=>{
+  router.back()
 }
 
 </script>
