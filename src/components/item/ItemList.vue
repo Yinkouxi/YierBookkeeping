@@ -1,8 +1,8 @@
 <template>
   <div class="itemlist">
     <Navbar>
-      <template #icon>
-        <svgIcon name="menu" color="white" width="26px" height="26px"></svgIcon>
+      <template #icon >
+        <svgIcon name="menu" color="white" width="26px" height="26px" ></svgIcon>
       </template>
       <template #title>
         <span>山竹记账</span>
@@ -58,8 +58,9 @@
       </div>
     </van-overlay>
     <FloatButton @click="startAccounting"/>
-
+    <Overlay v-show="menuVisible"></Overlay>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -71,6 +72,8 @@ import CustomItemSummary from './CustomItemSummary.vue'
 import StartItemForm from './StartItemForm.vue'
 import EndItemForm from './EndItemForm.vue'
 import FloatButton from '../../shared/FloatButton.vue'
+import Overlay from '../../shared/Overlay.vue'
+
 import { reactive, ref } from 'vue'
 import { Time } from '../../utils/time'
 import yierRequest1 from '../../service'
@@ -83,7 +86,7 @@ function updateSelected(tabTitle: string) {
   tabsKind.value = tabTitle
   showOverlay()
 }
-
+const menuVisible = ref(true)
 const time = new Time()
 const timeList = [
   { start: time.firstDayofMonth(), end: time.lastDayOfMonth() },
@@ -102,6 +105,7 @@ function showOverlay() {
     overlayVisible.value = true
   }
 }
+
 const hiddenOverlay = () => {
   overlayVisible.value = false
 }
