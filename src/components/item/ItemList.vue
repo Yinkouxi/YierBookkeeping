@@ -57,6 +57,8 @@
         </main>
       </div>
     </van-overlay>
+    <FloatButton @click="startAccounting"/>
+
   </div>
 </template>
 
@@ -68,10 +70,12 @@ import ItemSummary from './ItemSummary.vue'
 import CustomItemSummary from './CustomItemSummary.vue'
 import StartItemForm from './StartItemForm.vue'
 import EndItemForm from './EndItemForm.vue'
+import FloatButton from '../../shared/FloatButton.vue'
 import { reactive, ref } from 'vue'
 import { Time } from '../../utils/time'
 import yierRequest1 from '../../service'
 import { Item } from '../../assets/type'
+import router from '../../router'
 
 // Tabs切换绑定
 let tabsKind = ref('本月')
@@ -133,6 +137,10 @@ function getStartTime(startDate: Array<string>) {
 function getEndTime(endDate: Array<string>) {
   customTime.end = endDate.join('-')
   // console.log(customTime.end, 'customTime')
+}
+
+const startAccounting = ()=>{
+  router.push('/items/create')
 }
 </script>
 
