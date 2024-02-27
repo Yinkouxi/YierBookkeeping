@@ -29,7 +29,13 @@
         />
       </Tab>
       <tab title="自定义时间">
-        <ItemSummary :start-date="customTime.start" :end-date="customTime.end" />
+        <!-- {{  }} -->
+        <div v-if="items.length">
+          <CustomItemSummary
+            :startDate="customTime.start"
+            :endDate="customTime.end"
+          />
+        </div>
       </tab>
     </Tabs>
     <van-overlay :show="overlayVisible" class="v-overlay" @click.stop="hiddenOverlay">
@@ -38,8 +44,10 @@
         <main>
           <form v-on:submit="customSubmit">
             <div>
-              <ItemForm title="开始时间" class="item-form"></ItemForm>
-              <ItemForm title="结束时间" class="item-form"></ItemForm>
+              <!-- <ItemForm title="开始时间" class="item-form" v-model="customTime.start" ></ItemForm>
+              <ItemForm title="结束时间" class="item-form" v-model="customTime.end" ></ItemForm> -->
+              <StartItemForm title="开始时间" class="item-form" @sendStartTime="getStartTime" />
+              <EndItemForm title="结束时间" class="item-form" @sendEndTime="getEndTime" />
             </div>
             <div class="btns">
               <button @click="hiddenOverlay">取消</button>
@@ -57,9 +65,13 @@ import Navbar from '@/shared/Navbar.vue'
 import Tabs from '../../shared/Tabs.vue'
 import Tab from '../../shared/Tab.vue'
 import ItemSummary from './ItemSummary.vue'
-import ItemForm from './ItemForm.vue'
+import CustomItemSummary from './CustomItemSummary.vue'
+import StartItemForm from './StartItemForm.vue'
+import EndItemForm from './EndItemForm.vue'
 import { reactive, ref } from 'vue'
 import { Time } from '../../utils/time'
+import yierRequest1 from '../../service'
+import { Item } from '../../assets/type'
 
 // Tabs切换绑定
 let tabsKind = ref('本月')
@@ -78,13 +90,12 @@ const customTime = reactive({
   start: new Time().format(),
   end: new Time().format()
 })
-
+const items = ref<Item[]>([])
 const overlayVisible = ref(false)
 function showOverlay() {
   // 如果是自定义时间tab
   if (tabsKind.value === '自定义时间') {
     overlayVisible.value = true
-    console.log(tabsKind.value)
   }
 }
 const hiddenOverlay = () => {
@@ -94,8 +105,34 @@ const hiddenOverlay = () => {
 const protectContent = (e: Event) => {
   e.stopPropagation()
 }
-const customSubmit = (e: Event) => {
+const customSubmit =  async(e: Event) => {
+  await yierRequest1
+    .get({
+      url: '/api/v1/items',
+      params: {
+        page: 0,
+        happened_after: customTime.start,
+        happened_before: customTime.end
+      }
+    })
+    .then((res) => {
+      items.value = res.resources
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   e.preventDefault()
+}
+
+function getStartTime(startDate: Array<string>) {
+  customTime.start = startDate.join('-')
+  //  console.log(customTime.start,'customtime')
+  //  return startDate
+}
+
+function getEndTime(endDate: Array<string>) {
+  customTime.end = endDate.join('-')
+  // console.log(customTime.end, 'customTime')
 }
 </script>
 
