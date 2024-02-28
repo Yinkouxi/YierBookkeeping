@@ -9,10 +9,9 @@
       </template>
     </Navbar>
 
-    <TagForm :id="tagId"/>
+    <TagForm :id="tagId" />
     <div class="removes">
-      <Button class="remove-tags" level="danger">删除标签</Button>
-      <Button class="remove-tags-items" level="danger">删除标签和记账</Button>
+      <Button class="remove-tags" level="danger" @click="deleteTag(tagId)">删除标签</Button>
     </div>
   </div>
 </template>
@@ -21,12 +20,14 @@
 import Navbar from '@/shared/Navbar.vue'
 import TagForm from './TagForm.vue'
 import Button from '../../shared/Button.vue'
-import { useRoute } from 'vue-router';
-import router from '../../router';
+import { useRoute } from 'vue-router'
+import router from '../../router'
+import yierRequest1 from '../../service'
 
 const route = useRoute()
+const { return_to } = route.query
 const exit = () => {
-  const { return_to } = route.query
+
   if (return_to) {
     router.push(return_to.toString())
   } else {
@@ -34,23 +35,42 @@ const exit = () => {
   }
 }
 const tagId = parseInt(route.params.id.toString())
+
+const deleteTag = async(tagId:number)=>{
+  await yierRequest1.delete({
+    url:`/api/v1/tags/${tagId}`
+  }).then((res)=>{
+    console.log(res)
+    router.back()
+  }).catch(err=>{
+    console.log(err)
+  })
+}
+
 </script>
 
 <style lang="less" scoped>
 .tag-edit {
   position: relative;
-  .navbar{
+  .navbar {
     position: sticky;
     top: 0;
   }
-  .removes {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 16px;
-    .remove-tags,
-    .remove-tags-items {
-      width: 50vw-6px;
-    }
+  // .removes {
+  //   display: flex;
+  //   justify-content: space-between;
+  //   padding: 0 16px;
+  // .remove-tags,
+  // .remove-tags-items {
+  //   width: 50vw-6px;
+  // }
+  // }
+  .removes{
+    padding: 0 16px 0 16px;
+
+    .remove-tags {
+      width: 100%;
+  } 
   }
 }
 </style>

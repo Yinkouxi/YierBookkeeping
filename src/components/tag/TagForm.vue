@@ -26,7 +26,7 @@
           </div>
         </label>
       </div>
-      <p class="tips">记账时长按标签，即可进行编辑</p>
+      <!-- <p class="tips">记账时长按标签，即可进行编辑</p> -->
       <div class="button-wrapper">
         <Button class="button">确定</Button>
       </div>
