@@ -12,7 +12,7 @@
 
       <Tabs :selected="tabsKind" @update="updateSelected" class="tabs">
         <Tab title="支出">
-          <div class="tag-list">
+          <div class="tag-list" @touchmove="onTouchMove">
             <!-- 新增标签 -->
             <AddTag @click="addTag" />
             <!-- 标签列表 -->
@@ -21,6 +21,8 @@
               v-for="(tag, index) in spendingTags"
               :key="index"
               @click="tagSelected(tag.id, tag.kind)"
+              @touchstart="onTouchStart($event,tag)"
+              @touchend="onTouchEnd"
             >
               <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">
                 {{ tag.sign }}
@@ -30,7 +32,7 @@
           </div>
         </Tab>
         <Tab title="收入">
-          <div class="tag-list">
+          <div class="tag-list" @touchmove="onTouchMove">
             <!-- 新增标签 -->
             <AddTag @click="addTag" />
             <!-- 标签列表 -->
@@ -39,6 +41,8 @@
               v-for="(tag, index) in incomeTags"
               :key="index"
               @click="tagSelected(tag.id, tag.kind)"
+              @touchstart="onTouchStart($event,tag)"
+              @touchend="onTouchEnd"
             >
               <div class="tag-sign" :class="selectedTagId === tag.id ? 'selected' : ''">
                 {{ tag.sign }}
@@ -73,8 +77,8 @@ function updateSelected(tabTitle: string) {
 const spendingTags = ref<Tag[]>([])
 const incomeTags = ref<Tag[]>([])
 const route = useRoute()
-const newTagKind = computed(()=>{
-  return tabsKind.value==='支出'?'expenses':'income'
+const newTagKind = computed(() => {
+  return tabsKind.value === '支出' ? 'expenses' : 'income'
 })
 const exit = () => {
   // const { return_to } = route.query
@@ -89,7 +93,7 @@ const addTag = () => {
   const return_to = route.path
   console.log(newTagKind.value)
   if (return_to) {
-    router.push('/tags/create?' +'kind='+newTagKind.value+ '&&return_to=' + return_to)
+    router.push('/tags/create?' + 'kind=' + newTagKind.value + '&&return_to=' + return_to)
   } else {
     router.push('/tags/create')
   }
@@ -101,9 +105,6 @@ onMounted(async () => {
       params: {
         kind: 'expenses'
       }
-      // headers: {
-      //   Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
-      // }
     })
     .then(
       (res) => {
@@ -120,9 +121,6 @@ onMounted(async () => {
       params: {
         kind: 'income'
       }
-      // headers: {
-      //   Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt')
-      // }
     })
     .then(
       (res) => {
@@ -177,6 +175,33 @@ async function getTimeAndAmount(currentDate: string, amount: number) {
       console.log('create err', err)
     })
 }
+
+// 长按删除
+const timer = ref<number|undefined>()
+const currentTag = ref<HTMLDivElement|undefined>()
+const onLongPress = (tag:Tag) => {
+  router.push(`/tags/${tag.id}/edit?kind=${tag.kind}&return_to=${route.path}`)
+  console.log('长按')
+}
+const onTouchStart = (e: TouchEvent,tag:Tag) => {
+  currentTag.value= e.currentTarget as HTMLDivElement
+  timer.value = setTimeout(() => {
+    onLongPress(tag)
+  }, 1000) as unknown as number
+}
+
+const onTouchEnd = () => {
+  if(timer.value)
+  clearTimeout(timer.value)
+}
+
+const onTouchMove=(e:TouchEvent)=>{
+  const pointedElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+  if(currentTag.value?.contains(pointedElement)||currentTag.value===pointedElement){
+  }else{
+    clearTimeout(timer.value)
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -213,6 +238,7 @@ async function getTimeAndAmount(currentDate: string, amount: number) {
         background-color: @tag-bg-color;
         border: 1px solid @tag-border-color;
         border-radius: 50%;
+        font-size: 22px;
       }
       .selected {
         background-color: @tag-selected-bg-color;

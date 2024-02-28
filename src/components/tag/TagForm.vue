@@ -45,7 +45,6 @@ import yierRequest1 from '../../service'
 import router from '../../router'
 const route = useRoute()
 const tagKind = route.query.kind || 'expenses'
-console.log(tagKind)
 const formData = reactive({
   name: '',
   sign: ''
