@@ -187,7 +187,7 @@ const onTouchStart = (e: TouchEvent,tag:Tag) => {
   currentTag.value= e.currentTarget as HTMLDivElement
   timer.value = setTimeout(() => {
     onLongPress(tag)
-  }, 1000) as unknown as number
+  }, 500) as unknown as number
 }
 
 const onTouchEnd = () => {

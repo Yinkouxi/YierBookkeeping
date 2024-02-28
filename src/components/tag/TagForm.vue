@@ -37,19 +37,38 @@
 <script setup lang="ts">
 import Button from '../../shared/Button.vue'
 import EmojiSelect from '@/shared/EmojiSelect.vue'
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 // import { Rules,validata} from '@/utils/validata.ts'
 import { Rules, validata } from '../../utils/validata'
 import { useRoute } from 'vue-router'
 import yierRequest1 from '../../service'
 import router from '../../router'
-const route = useRoute()
-const tagKind = route.query.kind || 'expenses'
-const formData = reactive({
-  name: '',
-  sign: ''
+import { Tag } from '../../assets/type/index.ts'
+const props = defineProps({
+  id: Number
+})
+onMounted(async () => {
+  if (props.id) {
+    await yierRequest1
+      .get({
+        url: `/api/v1/tags/${props.id}`
+      })
+      .then((res) => {
+        formData.id = res.resource.id
+        formData.name = res.resource.name
+        formData.sign = res.resource.sign
+      })
+  }
 })
 
+const route = useRoute()
+// const tagKind = route.query.kind || 'expenses'
+const formData = reactive<Partial<Tag>>({
+  id: undefined,
+  name: '',
+  sign: '',
+  kind: route.query.kind!.toString() as 'expenses' | 'income'
+})
 // const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
 const errors = reactive({
   name: [],
@@ -78,23 +97,38 @@ const onSubmit = async (e: Event) => {
     sign: undefined
   })
   Object.assign(errors, validata(formData, rules))
-  console.log(errors, '---')
   if (!hasErrors(errors)) {
-    console.log('没有err')
-    await yierRequest1
-      .post({
-        url: '/api/v1/tags',
-        data: {
-          kind: tagKind,
-          name: formData.name,
-          sign: formData.sign
-        }
-      })
-      .then(() => {
-        router.push('/items/create')
-      }).catch((err)=>{
-        console.log(err)
-      })
+    if (formData.id) {
+      // id有值，为标签更改操作
+      await yierRequest1
+        .patch({
+          url: `/api/v1/tags/${formData.id}`,
+          data: formData
+        })
+        .then(() => {
+          router.back()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      // id无值 标签新建操作
+      await yierRequest1
+        .post({
+          url: '/api/v1/tags',
+          data: {
+            kind: formData.kind,
+            name: formData.name,
+            sign: formData.sign
+          }
+        })
+        .then(() => {
+          router.push('/items/create')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   } else {
     console.log('you err')
     console.log(errors)

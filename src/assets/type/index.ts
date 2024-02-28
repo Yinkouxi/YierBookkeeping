@@ -25,3 +25,7 @@ export type Item = {
   happen_at: string;
   kind: 'expenses' | 'income';
 };
+
+type Resource<T> = {
+  resource: T;
+};
