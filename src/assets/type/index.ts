@@ -26,6 +26,6 @@ export type Item = {
   kind: 'expenses' | 'income';
 };
 
-type Resource<T> = {
-  resource: T;
-};
+// type Resource<T> = {
+//   resource: T;
+// };
