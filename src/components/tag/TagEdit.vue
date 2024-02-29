@@ -27,11 +27,10 @@ import yierRequest1 from '../../service'
 const route = useRoute()
 const { return_to } = route.query
 const exit = () => {
-
   if (return_to) {
     router.push(return_to.toString())
   } else {
-    router.back()
+    router.push('/items/create')
   }
 }
 const tagId = parseInt(route.params.id.toString())

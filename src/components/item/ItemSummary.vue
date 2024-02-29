@@ -28,8 +28,11 @@
         </div>
       </li>
     </ol>
-    <div class="loading">
-      <p>向下滑动加载更多</p>
+    <div class="loading" v-if="hasMore()">
+      <button @click="fetchMore">点击加载更多</button>
+    </div>
+    <div v-else class="loading">
+      <p>暂无更多数据</p>
     </div>
   </div>
 </template>
@@ -51,11 +54,13 @@ const props = defineProps({
   }
 })
 
-
 const items = ref<Item[]>([])
-const page = ref(0)
+const page = ref(1)
 let totalExpenses = ref<number>(0)
 let totalIncome = ref<number>(0)
+// 分页逻辑
+const perPage = ref(25)
+const itemCount = ref(0)
 
 onMounted(async () => {
   if (!props.startDate || !props.endDate) {
@@ -72,11 +77,47 @@ onMounted(async () => {
     })
     .then((res) => {
       items.value = res.resources
+      itemCount.value = res.pager.count
+      perPage.value = res.pager.per_page
+      // items.value.push(res.resource)
     })
     .catch((err) => {
       console.log(err)
     })
 })
+
+const hasMore = () => {
+  if (perPage.value * page.value < itemCount.value) {
+    // 还有更多数据
+    return true
+  } else {
+    return false
+  }
+}
+
+const fetchMore = async () => {
+  // 还有更多数据可以点击加载更多显示更多账单数据
+  if (hasMore()) {
+    console.log('加载更多ing')
+    page.value += 1
+    await yierRequest1.get({
+      url: '/api/v1/items',
+      params: {
+        page: page.value,
+        happened_after: props.startDate,
+        happened_before: props.endDate
+      }
+    }).then((res)=>{
+      // 把加载出来的数据拼接在原有数据上
+      // console.log(res.resources,'new res')
+      items.value.push(...res.resources)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }else{
+    console.log('没有更多了')
+  }
+}
 
 onMounted(() => {
   // 获取支出总额
@@ -189,9 +230,18 @@ onMounted(() => {
   }
 
   .loading {
-    margin-top: 30px;
+    // margin-top: 30px;
     text-align: center;
     color: @item-list-loading-text-color;
+    padding: 0 16px 0 16px;
+
+    button {
+      width: 100%;
+      height: 40px;
+      background-color: @primary-color;
+      border-radius: 16px;
+      color: white;
+    }
   }
 }
 </style>

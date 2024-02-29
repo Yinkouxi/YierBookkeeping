@@ -139,13 +139,10 @@ const customSubmit =  async(e: Event) => {
 
 function getStartTime(startDate: Array<string>) {
   customTime.start = startDate.join('-')
-  //  console.log(customTime.start,'customtime')
-  //  return startDate
 }
 
 function getEndTime(endDate: Array<string>) {
   customTime.end = endDate.join('-')
-  // console.log(customTime.end, 'customTime')
 }
 
 const startAccounting = ()=>{

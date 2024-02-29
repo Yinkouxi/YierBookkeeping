@@ -67,7 +67,7 @@ const formData = reactive<Partial<Tag>>({
   id: undefined,
   name: '',
   sign: '',
-  kind: route.query.kind!.toString() as 'expenses' | 'income'
+  kind: route.query.kind as 'expenses' | 'income'
 })
 // const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
 const errors = reactive({
