@@ -2,10 +2,18 @@
   <div>
     <div class="mask" @click="$emit('closeOverlay')"></div>
     <div class="overlay">
-      <section>
-        <h2 class="user-status">未登录用户</h2>
-        <p class="sing-in">点击这里登录</p>
-      </section>
+      <div class="account-info">
+        <div v-if="userEmail">
+          <h2 class="user-status">{{ userEmail }}</h2>
+          <p class="sing-in" @click="signOut">退出登录</p>
+        </div>
+        <div v-else>
+          <router-link :to="'/sign_in?' + 'return_to=' + route.fullPath">
+            <h2 class="user-status">未登录用户</h2>
+            <p class="sing-in">点击这里登录</p>
+          </router-link>
+        </div>
+      </div>
       <nav class="side-navbar">
         <ul>
           <li>
@@ -39,7 +47,26 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
+import yierRequest1 from '../service'
+import { ref } from 'vue'
+import router from '../router'
+const route = useRoute()
 
+const userEmail = ref<string>('')
+
+yierRequest1
+  .get({
+    url: '/api/v1/me'
+  })
+  .then((res) => {
+    userEmail.value = res.resource.email
+  })
+
+const signOut = () => {
+  router.push(`/sign_in?return_to=${route.fullPath}`)
+  localStorage.removeItem('jwt')
+}
 </script>
 
 <style lang="less" scoped>
@@ -61,7 +88,7 @@
   width: 16rem;
   height: calc(100% - @top-safe-area-height);
 
-  section {
+  .account-info {
     background-color: @overlay-section-color;
     height: 128px;
     padding: 32px 0 44px 16px;
@@ -69,6 +96,8 @@
       color: @overlay-user-status-text-color;
       font-weight: 350;
       font-size: 24px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .sing-in {
       color: @overlay-sign-in-text-color;
@@ -86,7 +115,7 @@
       align-items: center;
       margin-top: 12px;
 
-      span{
+      span {
         margin-left: 16px;
       }
     }
