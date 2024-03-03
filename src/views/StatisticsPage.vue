@@ -99,7 +99,7 @@ const customSubmit = (e: Event) => {
 }
 
 const exit = ()=>{
-  router.back()
+  router.push('/items/list')
 }
 
 </script>

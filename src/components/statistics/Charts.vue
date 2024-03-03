@@ -1,48 +1,35 @@
 <template>
   <div class="charts">
-    <div class="radio-container">
-      <label
-        class="radio-label"
-        @click="taggleClass('收入')"
-        :class="categary === '收入' ? 'checked' : ''"
+    <div class="radio">
+      <div
+        class="option"
+        :class="kind === 'expenses' ? 'selected' : ''"
+        @click="selectKind('expenses')"
       >
-        <input
-          type="radio"
-          name="transaction-type"
-          value="income"
-          v-model="categary"
-          class="visually-hidden"
-        />
-        收入
-      </label>
-      <label
-        class="radio-label"
-        @click="taggleClass('支出')"
-        :class="categary === '支出' ? 'checked' : ''"
+        <span>支出</span>
+      </div>
+      <div
+        class="option"
+        :class="kind === 'income' ? 'selected' : ''"
+        @click="selectKind('income')"
       >
-        <input
-          type="radio"
-          name="transaction-type"
-          value="expense"
-          v-model="categary"
-          class="visually-hidden"
-        />
-        支出
-      </label>
+        <span>收入</span>
+      </div>
     </div>
-    <line-chart />
-    <PieChart />
+    <line-chart :data="betterData1" />
+    <PieChart :data="betterData2"/>
     <Bars />
   </div>
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from 'vue'
+import { PropType, computed, onMounted, ref, watch } from 'vue'
 import LineChart from './LineChart.vue'
 import PieChart from './PieChart.vue'
 import Bars from './Bars.vue'
-
-defineProps({
+import yierRequest1 from '../../service'
+import { Tag } from '../../assets/type'
+const props = defineProps({
   startDate: {
     type: String as PropType<string>,
     require: true
@@ -53,12 +40,74 @@ defineProps({
   }
 })
 
-const categary = ref('收入')
-function taggleClass(selCategary: string) {
-  categary.value = selCategary
-  console.log('test')
-  console.log(categary.value)
+const kind = ref('expenses')
+const selectKind = (selKind: string) => {
+  console.log('sel', selKind)
+  kind.value = selKind
 }
+type Data1Item = { happened_at: string; amount: number }
+type Data1 = Data1Item[]
+const data1 = ref<Data1>([])
+const betterData1 = computed(() => {
+  return data1.value.map((item) => {
+    return [item.happened_at, item.amount] as [string, number]
+  })
+})
+
+// setTimeout(() => {
+//   console.log(data1.value)
+//   console.log(betterData1.value)
+// }, 2000)
+onMounted(() => {
+  yierRequest1
+    .get({
+      url: '/api/v1/items/summary',
+      params: {
+        happened_after: props.startDate,
+        happened_before: props.endDate,
+        kind: kind.value,
+        group_by: 'happened_at'
+      }
+    })
+    .then((res) => {
+      data1.value = res.groups
+      // console.log(data1.value)
+      // console.log(data1.value[0].amount)
+    })
+})
+
+// 饼图
+type Data2Item = { tag_id: number; tag: Tag; amount: number }
+type Data2 = Data2Item[]
+const data2 = ref<Data2>([])
+// const betterData2 = computed<{ name: string; value: number }>()
+const betterData2 = computed<{ name: string; value: number }[]>(() =>
+  data2.value.map((item) => ({
+    name: item.tag.name,
+    value: item.amount
+  }))
+)
+setTimeout(() => {
+  console.log(betterData2.value)
+}, 1000)
+
+const fetchData2 = async () => {
+  await yierRequest1
+    .get({
+      url: '/api/v1/items/summary',
+      params: {
+        happened_after: props.startDate,
+        happened_before: props.endDate,
+        kind: kind.value,
+        group_by: 'tag_id'
+      }
+    })
+    .then((res) => {
+      data2.value = res.groups
+    })
+}
+onMounted(fetchData2)
+watch(kind,fetchData2)
 </script>
 
 <style lang="less" scoped>
@@ -69,30 +118,23 @@ function taggleClass(selCategary: string) {
     opacity: 0;
   }
 
-  .radio-container {
+  .radio {
+    padding: 16px 0 0 16px;
     display: flex;
+    text-align: center;
     align-items: center;
-    justify-content: space-around;
-    height: 60px;
-    font-size: 20px;
-    background-color: @select-bg-color;
-    border-radius: 18px;
-    color: black;
-    margin: 16px 16px 0 16px;
-
-    .radio-label {
-      height: 80%;
-      width: 40%;
-      border-radius: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    color: #975ad9;
+    .option {
+      width: 25vw;
+      height: 48px;
+      line-height: 48px;
+      border-radius: 16px;
     }
-  }
-  .checked {
-    background-color: @select-item-bg-color;
-    border: 1px solid @select-item-border-color;
-    color: @select-item-text-color;
+
+    .selected {
+      background-color: #975ad9;
+      color: white;
+    }
   }
 }
 </style>

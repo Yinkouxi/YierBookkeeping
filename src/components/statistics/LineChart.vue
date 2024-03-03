@@ -1,43 +1,92 @@
 <template>
-  <div class="line" id="line">
-
-  </div>
+  <div class="line" id="line"></div>
 </template>
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
-import { onMounted } from 'vue';
-onMounted(() => {
+import { PropType, onMounted, watch } from 'vue'
+import { Time } from '../../utils/time'
+import { handleAmount } from '../../utils/handleAmount'
 
-var myChart = echarts.init(document.getElementById('line'))
+const props = defineProps({
+  data: {
+    type: Array as PropType<[string, number][]>,
+    require: true
+  }
+})
 
+let chart: echarts.ECharts | undefined = undefined
 const option = {
-  grid: [
-          {  top: 46,  bottom: 20 }
-        ],
+  tooltip: {
+    show: true,
+    trigger: 'axis',
+    formatter: ([item]: any) => {
+      const [x, y] = item.data
+      return `${new Time(new Date(x)).format('YYYY年MM月DD日')} ￥${handleAmount(y)}`
+    }
+  },
+  grid: [{ left: 16, top: 20, right: 16, bottom: 20 }],
   xAxis: {
-    type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    type: 'time',
+    boundaryGap: ['3%', '0%'],
+    axisLabel: {
+      formatter: (value: string) => new Time(new Date(value)).format('MM-DD')
+    },
+    axisTick: {
+      alignWithLabel: true
+    }
   },
   yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
+    show: true,
+    type: 'value',
+    splitLine: {
+      show: true,
+      lineStyle: {
+        type: 'dashed'
+      }
+    },
+    axisLabel: {
+      show: false
     }
-  ]
+  }
 }
-myChart.setOption(option);
+onMounted(() => {
 
-})
+      // 基于准备好的dom，初始化echarts实例
+      // chart = echarts.init(myChart)
+      var myChart = echarts.init(document.getElementById('line'))
+      if (myChart === undefined) {
+        return
+      }
+      // 绘制图表
+      chart?.setOption({
+        ...option,
+        series: [
+          {
+            data: props.data,
+            type: 'line',
+          },
+        ],
+      })
+    })
+    watch(
+      () => props.data,
+      () => {
+        chart?.setOption({
+          series: [
+            {
+              data: props.data,
+            },
+          ],
+        })
+      }
+    )
 </script>
 
 <style lang="less" scoped>
-.line{
-    color: blueviolet;
-    height: 200px;
-    width: 100vw;
+.line {
+  color: blueviolet;
+  height: 200px;
+  width: 100vw;
 }
 </style>
