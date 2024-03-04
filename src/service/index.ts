@@ -53,6 +53,10 @@ export const yierRequest2 = new YierRequest({
     responseSuccessFn(res) {
       closeToast()
       return res
+    },
+    responseFailureFn(err) {
+      closeToast()
+      throw err
     }
   }
 })

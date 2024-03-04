@@ -23,7 +23,7 @@ import Button from '../../shared/Button.vue'
 import { useRoute } from 'vue-router'
 import router from '../../router'
 import { yierRequest2 } from '../../service'
-import { showConfirmDialog } from 'vant'
+import { showConfirmDialog, showToast } from 'vant'
 
 const route = useRoute()
 const { return_to } = route.query
@@ -58,9 +58,17 @@ const deleteTag = (tagId:number) => {
           url: `/api/v1/tags/${tagId}`
         })
         .then(() => {
+          showToast({
+            message:'删除成功',
+            duration:300
+          })
           router.back()
         })
         .catch((err) => {
+          showToast({
+            message:'删除失败',
+            duration:300
+          })
           console.log(err)
         })
     })

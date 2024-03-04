@@ -51,10 +51,10 @@ import Button from '../shared/Button.vue'
 import { computed, reactive, ref } from 'vue'
 import { Rules, validata } from '../utils/validata'
 import { yierRequest2 } from '../service'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { showToast } from 'vant'
 
 const router = useRouter()
-const route = useRoute()
 const formData = reactive({
   email: '3405176636@qq.com',
   code: ''
@@ -102,9 +102,10 @@ const onSubmit = async (e: Event) => {
       }
     })
     localStorage.setItem('jwt', response.jwt)
-    const returnTo = route.query.return_to?.toString()
-    console.log(returnTo, 'returnto---')
-    router.push(returnTo ? returnTo : '/')
+    // const returnTo = route.query.return_to?.toString()
+    // console.log(returnTo, 'returnto---')
+    // router.push(returnTo ? returnTo : '/')
+    router.push('/items/list')
   }
 }
 
@@ -129,8 +130,8 @@ const sendVerification = async (e: Event) => {
   errors.email = []
   errors.code = []
   e.preventDefault()
-  if (formData.email == '') {
-    console.log('请先输入邮箱地址')
+  if (formData.email === '') {
+    showToast('请先输入邮箱地址')
     return
   }
   await yierRequest2
