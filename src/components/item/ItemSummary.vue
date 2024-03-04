@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { PropType, onMounted, ref } from 'vue'
-import yierRequest1 from '../../service'
+import yierRequest1, { yierRequest2 } from '../../service'
 import { Item } from '../../assets/type'
 import { convertISOtoNormalDate } from '../../utils/time'
 import { handleAmount } from '../../utils/handleAmount.ts'
@@ -108,7 +108,7 @@ const fetchMore = async () => {
   if (hasMore()) {
     console.log('加载更多ing')
     page.value += 1
-    await yierRequest1
+    await yierRequest2
       .get({
         url: '/api/v1/items',
         params: {

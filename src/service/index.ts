@@ -1,3 +1,4 @@
+import { closeToast, showLoadingToast } from 'vant'
 import { BASE_URL, TIME_OUT } from './config'
 import YierRequest from './request'
 
@@ -21,10 +22,10 @@ const yierRequest1 = new YierRequest({
   //     console.log('单个实例的请求失败拦截')
   //     return err
   //   },
-  //   responseSuccessFn:(res)=>{
-  //     console.log('单个实例的响应成功拦截')
-  //     return res
-  //   },
+  // responseSuccessFn:(res)=>{
+  //   console.log('单个实例的响应成功拦截')
+  //   return res
+  // },
   //   responseFailureFn:(err)=>{
   //     console.log('单个实例的响应失败拦截')
   //     return err
@@ -34,3 +35,24 @@ const yierRequest1 = new YierRequest({
 })
 
 export default yierRequest1
+
+// 创建带有请求加载的YierRequest实例
+export const yierRequest2 = new YierRequest({
+  baseURL: BASE_URL,
+  timeout: TIME_OUT,
+  interceptors: {
+    requestSuccessFn: (config) => {
+      showLoadingToast({
+        message: '加载中',
+        forbidClick: true,
+        duration: 0
+      })
+      config.headers = { Authorization: 'Bearer' + ' ' + localStorage.getItem('jwt') }
+      return config
+    },
+    responseSuccessFn(res) {
+      closeToast()
+      return res
+    }
+  }
+})

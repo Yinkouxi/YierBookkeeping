@@ -2,7 +2,13 @@
   <div class="start-page">
     <Navbar>
       <template #icon>
-        <svgIcon name="menu" color="white" width="26px" height="26px" @click="onClickMenu()"></svgIcon>
+        <svgIcon
+          name="menu"
+          color="white"
+          width="26px"
+          height="26px"
+          @click="onClickMenu()"
+        ></svgIcon>
       </template>
       <template #title>
         <span>山竹记账</span>
@@ -36,7 +42,6 @@ const overlayVisible = ref(false)
 const onClickMenu = () => {
   overlayVisible.value = !overlayVisible.value
 }
-
 const closeOverlay = () => {
   overlayVisible.value = false
 }

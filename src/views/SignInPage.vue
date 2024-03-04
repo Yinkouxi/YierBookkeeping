@@ -50,7 +50,7 @@ import Navbar from '../shared/Navbar.vue'
 import Button from '../shared/Button.vue'
 import { computed, reactive, ref } from 'vue'
 import { Rules, validata } from '../utils/validata'
-import yierRequest1 from '../service'
+import { yierRequest2 } from '../service'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -94,7 +94,7 @@ const onSubmit = async (e: Event) => {
   // 如果校验没有错误，发送登录请求
   if (!hasError(errors)) {
     console.log('no error')
-    const response = await yierRequest1.post({
+    const response = await yierRequest2.post({
       url: '/api/v1/session',
       params: {
         email: formData.email,
@@ -102,15 +102,8 @@ const onSubmit = async (e: Event) => {
       }
     })
     localStorage.setItem('jwt', response.jwt)
-    // router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
-    // const returnTo = route.query.return_to?.toString()
-    // refreshMe().then(()=>{
-    //   router.push(returnTo ? returnTo : '/')
-    // }).catch(()=>{
-    //   alert('登录失败')
-    // })
     const returnTo = route.query.return_to?.toString()
-    console.log(returnTo,'returnto---')
+    console.log(returnTo, 'returnto---')
     router.push(returnTo ? returnTo : '/')
   }
 }
@@ -118,13 +111,7 @@ const onSubmit = async (e: Event) => {
 const MAX_COUNT = 10
 const timer = ref()
 const count = ref<number>(MAX_COUNT)
-// const isCounting = computed(() => {
-//   if (count.value !== MAX_COUNT && count.value !== 0) {
-//     return true
-//   } else {
-//     return false
-//   }
-// })
+
 let isCounting = computed(() => !!timer.value)
 const countDowm = () => {
   timer.value = setInterval(() => {
@@ -146,7 +133,7 @@ const sendVerification = async (e: Event) => {
     console.log('请先输入邮箱地址')
     return
   }
-  await yierRequest1
+  await yierRequest2
     .post({
       url: '/api/v1/validation_codes',
       params: {

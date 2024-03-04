@@ -76,7 +76,7 @@ import Overlay from '../../shared/Overlay.vue'
 
 import { reactive, ref } from 'vue'
 import { Time } from '../../utils/time'
-import yierRequest1 from '../../service'
+import { yierRequest2 } from '../../service'
 import { Item } from '../../assets/type'
 import router from '../../router'
 
@@ -119,7 +119,7 @@ const protectContent = (e: Event) => {
   e.stopPropagation()
 }
 const customSubmit =  async(e: Event) => {
-  await yierRequest1
+  await yierRequest2
     .get({
       url: '/api/v1/items',
       params: {
