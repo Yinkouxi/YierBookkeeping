@@ -22,7 +22,9 @@
         <div class="text">
           <div class="tag-amount">
             <span class="tag">{{ item.tags?.[0].name }}</span>
-            <span class="amount">￥{{ handleAmount(item.amount) }}</span>
+            <span class="amount"
+              >{{ item.kind === 'expenses' ? '-' : '' }}{{ handleAmount(item.amount) }}</span
+            >
           </div>
           <div class="time">{{ convertISOtoNormalDate(item.happen_at) }}</div>
         </div>
@@ -63,7 +65,7 @@ let totalIncome = ref<number>(0)
 const perPage = ref(25)
 const itemCount = ref(0)
 
-const statsClick = ()=>{
+const statsClick = () => {
   console.log('jjj')
   router.push('/statistics')
   console.log('qqq')
@@ -106,21 +108,24 @@ const fetchMore = async () => {
   if (hasMore()) {
     console.log('加载更多ing')
     page.value += 1
-    await yierRequest1.get({
-      url: '/api/v1/items',
-      params: {
-        page: page.value,
-        happened_after: props.startDate,
-        happened_before: props.endDate
-      }
-    }).then((res)=>{
-      // 把加载出来的数据拼接在原有数据上
-      // console.log(res.resources,'new res')
-      items.value.push(...res.resources)
-    }).catch((err)=>{
-      console.log(err)
-    })
-  }else{
+    await yierRequest1
+      .get({
+        url: '/api/v1/items',
+        params: {
+          page: page.value,
+          happened_after: props.startDate,
+          happened_before: props.endDate
+        }
+      })
+      .then((res) => {
+        // 把加载出来的数据拼接在原有数据上
+        // console.log(res.resources,'new res')
+        items.value.push(...res.resources)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  } else {
     console.log('没有更多了')
   }
 }
@@ -239,7 +244,7 @@ onMounted(() => {
     // margin-top: 30px;
     text-align: center;
     color: @item-list-loading-text-color;
-    padding: 0 16px 0 16px;
+    padding: 0 16px 16px 16px;
 
     button {
       width: 100%;
