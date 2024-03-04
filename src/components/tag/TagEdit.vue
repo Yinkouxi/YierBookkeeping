@@ -23,6 +23,7 @@ import Button from '../../shared/Button.vue'
 import { useRoute } from 'vue-router'
 import router from '../../router'
 import { yierRequest2 } from '../../service'
+import { showConfirmDialog } from 'vant'
 
 const route = useRoute()
 const { return_to } = route.query
@@ -35,17 +36,36 @@ const exit = () => {
 }
 const tagId = parseInt(route.params.id.toString())
 
-const deleteTag = async(tagId:number)=>{
-  await yierRequest2.delete({
-    url:`/api/v1/tags/${tagId}`
-  }).then((res)=>{
-    console.log(res)
-    router.back()
-  }).catch(err=>{
-    console.log(err)
-  })
-}
+// const deleteTag = async(tagId:number)=>{
+//   await yierRequest2.delete({
+//     url:`/api/v1/tags/${tagId}`
+//   }).then((res)=>{
+//     console.log(res)
+//     router.back()
+//   }).catch(err=>{
+//     console.log(err)
+//   })
+// }
 
+const deleteTag = (tagId:number) => {
+  showConfirmDialog({
+    title: '警告',
+    message: '你确定删除标签吗，删除标签将重置该标签记账数据'
+  })
+    .then(async () => {
+      await yierRequest2
+        .delete({
+          url: `/api/v1/tags/${tagId}`
+        })
+        .then(() => {
+          router.back()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })
+    .catch(() => {})
+}
 </script>
 
 <style lang="less" scoped>
@@ -64,12 +84,12 @@ const deleteTag = async(tagId:number)=>{
   //   width: 50vw-6px;
   // }
   // }
-  .removes{
+  .removes {
     padding: 0 16px 0 16px;
 
     .remove-tags {
       width: 100%;
-  } 
+    }
   }
 }
 </style>

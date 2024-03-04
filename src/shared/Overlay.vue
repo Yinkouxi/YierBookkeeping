@@ -51,6 +51,7 @@ import { useRoute } from 'vue-router'
 import yierRequest1 from '../service'
 import { ref } from 'vue'
 import router from '../router'
+import { showConfirmDialog } from 'vant'
 const route = useRoute()
 
 const userEmail = ref<string>('')
@@ -64,8 +65,15 @@ yierRequest1
   })
 
 const signOut = () => {
-  router.push(`/sign_in?return_to=${route.fullPath}`)
-  localStorage.removeItem('jwt')
+  showConfirmDialog({
+    title: '警告',
+    message: '你确定退出登录吗'
+  })
+    .then(() => {
+      router.push(`/sign_in?return_to=${route.fullPath}`)
+      localStorage.removeItem('jwt')
+    })
+    .catch(() => {})
 }
 </script>
 
