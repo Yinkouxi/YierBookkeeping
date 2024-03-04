@@ -1,6 +1,6 @@
 <template>
   <div class="item-summary">
-    <ul class="total">
+    <ul class="total" @click="statsClick">
       <li class="spendding">
         <span>支出</span>
         <span>{{ handleAmount(totalExpenses) }}</span>
@@ -43,6 +43,7 @@ import yierRequest1 from '../../service'
 import { Item } from '../../assets/type'
 import { convertISOtoNormalDate } from '../../utils/time'
 import { handleAmount } from '../../utils/handleAmount.ts'
+import router from '../../router'
 const props = defineProps({
   startDate: {
     type: String as PropType<string>,
@@ -62,6 +63,11 @@ let totalIncome = ref<number>(0)
 const perPage = ref(25)
 const itemCount = ref(0)
 
+const statsClick = ()=>{
+  console.log('jjj')
+  router.push('/statistics')
+  console.log('qqq')
+}
 onMounted(async () => {
   if (!props.startDate || !props.endDate) {
     return
