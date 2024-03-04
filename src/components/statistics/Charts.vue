@@ -18,7 +18,7 @@
     </div>
     <line-chart :data="betterData1" />
     <PieChart :data="betterData2" />
-    <Bars />
+    <Bars :data="betterData3"/>
   </div>
 </template>
 
@@ -30,6 +30,7 @@ import Bars from './Bars.vue'
 import yierRequest1 from '../../service'
 import { Tag } from '../../assets/type'
 import { Time } from '../../utils/time'
+import {handlePercent} from '../../utils/handlePercent'
 
 const DAY = 24 * 60 * 60 * 1000
 const props = defineProps({
@@ -100,6 +101,7 @@ watch(kind, fetchData1)
 type Data2Item = { tag_id: number; tag: Tag; amount: number }
 type Data2 = Data2Item[]
 const data2 = ref<Data2>([])
+const data2Total = ref<number>()
 const betterData2 = computed<{ name: string; value: number }[]>(() =>
   data2.value.map((item) => ({
     name: item.tag.name,
@@ -120,10 +122,22 @@ const fetchData2 = async () => {
     })
     .then((res) => {
       data2.value = res.groups
+      data2Total.value=res.total
     })
 }
 onMounted(fetchData2)
 watch(kind, fetchData2)
+
+// bars
+const betterData3 = computed<{tag:Tag,amount:number,percent:string}[]>(()=>{
+  const total = data2.value.reduce((sum,item)=>sum+item.amount,0)
+   return data2.value.map((item)=>{
+     return{
+      ...item,
+      percent:handlePercent(item.amount,total)
+     }
+   })
+})
 </script>
 
 <style lang="less" scoped>
