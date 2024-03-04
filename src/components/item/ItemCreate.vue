@@ -66,7 +66,7 @@ import Tab from '../../shared/Tab.vue'
 import AddTag from './AddTag.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import InputPad from '../../shared/InputPad.vue'
-import yierRequest1 from '../../service'
+import yierRequest1, { yierRequest2 } from '../../service'
 import { Tag, Resources } from '../../assets/type/index.ts'
 import { useRoute, useRouter } from 'vue-router'
 let tabsKind = ref('支出')
@@ -158,7 +158,7 @@ async function getTimeAndAmount(currentDate: string, amount: number) {
   accountingData.happen_at = currentDate
 
   console.log(accountingData, 'zheline')
-  await yierRequest1
+  await yierRequest2
     .post({
       url: '/api/v1/items',
       data: {

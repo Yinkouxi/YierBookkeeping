@@ -66,9 +66,7 @@ const perPage = ref(25)
 const itemCount = ref(0)
 
 const statsClick = () => {
-  console.log('jjj')
   router.push('/statistics')
-  console.log('qqq')
 }
 onMounted(async () => {
   if (!props.startDate || !props.endDate) {

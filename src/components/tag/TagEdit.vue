@@ -22,7 +22,7 @@ import TagForm from './TagForm.vue'
 import Button from '../../shared/Button.vue'
 import { useRoute } from 'vue-router'
 import router from '../../router'
-import yierRequest1 from '../../service'
+import { yierRequest2 } from '../../service'
 
 const route = useRoute()
 const { return_to } = route.query
@@ -36,7 +36,7 @@ const exit = () => {
 const tagId = parseInt(route.params.id.toString())
 
 const deleteTag = async(tagId:number)=>{
-  await yierRequest1.delete({
+  await yierRequest2.delete({
     url:`/api/v1/tags/${tagId}`
   }).then((res)=>{
     console.log(res)

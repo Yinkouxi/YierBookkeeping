@@ -41,7 +41,7 @@ import { onMounted, reactive } from 'vue'
 // import { Rules,validata} from '@/utils/validata.ts'
 import { Rules, validata } from '../../utils/validata'
 import { useRoute } from 'vue-router'
-import yierRequest1 from '../../service'
+import yierRequest1, { yierRequest2 } from '../../service'
 import router from '../../router'
 import { Tag } from '../../assets/type/index.ts'
 const props = defineProps({
@@ -100,7 +100,7 @@ const onSubmit = async (e: Event) => {
   if (!hasErrors(errors)) {
     if (formData.id) {
       // id有值，为标签更改操作
-      await yierRequest1
+      await yierRequest2
         .patch({
           url: `/api/v1/tags/${formData.id}`,
           data: formData
@@ -113,7 +113,7 @@ const onSubmit = async (e: Event) => {
         })
     } else {
       // id无值 标签新建操作
-      await yierRequest1
+      await yierRequest2
         .post({
           url: '/api/v1/tags',
           data: {
