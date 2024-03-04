@@ -15,8 +15,8 @@ const props = defineProps({
   }
 })
 
-let chart: echarts.ECharts | undefined = undefined
-const option = {
+let myChart: echarts.ECharts | undefined = undefined
+const defaultOption = {
   tooltip: {
     show: true,
     trigger: 'axis',
@@ -51,36 +51,32 @@ const option = {
   }
 }
 onMounted(() => {
-
-      // 基于准备好的dom，初始化echarts实例
-      // chart = echarts.init(myChart)
-      var myChart = echarts.init(document.getElementById('line'))
-      if (myChart === undefined) {
-        return
-      }
-      // 绘制图表
-      chart?.setOption({
-        ...option,
-        series: [
-          {
-            data: props.data,
-            type: 'line',
-          },
-        ],
-      })
+  // 基于准备好的dom，初始化echarts实例
+  // chart = echarts.init(myChart)
+  myChart = echarts.init(document.getElementById('line'))
+  myChart.setOption(defaultOption)
+  
+  // 绘制图表
+  myChart?.setOption({
+    ...defaultOption,
+    series:[{
+      data:props.data,
+      type:'line'
+    }]
+  })
+})
+watch(
+  () => props.data,
+  () => {
+    myChart?.setOption({
+      series: [
+        {
+          data: props.data
+        }
+      ]
     })
-    watch(
-      () => props.data,
-      () => {
-        chart?.setOption({
-          series: [
-            {
-              data: props.data,
-            },
-          ],
-        })
-      }
-    )
+  }
+)
 </script>
 
 <style lang="less" scoped>

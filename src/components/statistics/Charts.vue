@@ -17,7 +17,7 @@
       </div>
     </div>
     <line-chart :data="betterData1" />
-    <PieChart :data="betterData2"/>
+    <PieChart :data="betterData2" />
     <Bars />
   </div>
 </template>
@@ -29,6 +29,9 @@ import PieChart from './PieChart.vue'
 import Bars from './Bars.vue'
 import yierRequest1 from '../../service'
 import { Tag } from '../../assets/type'
+import { Time } from '../../utils/time'
+
+const DAY = 24 * 60 * 60 * 1000
 const props = defineProps({
   startDate: {
     type: String as PropType<string>,
@@ -42,24 +45,41 @@ const props = defineProps({
 
 const kind = ref('expenses')
 const selectKind = (selKind: string) => {
-  console.log('sel', selKind)
   kind.value = selKind
 }
+
+// 折线图
 type Data1Item = { happened_at: string; amount: number }
 type Data1 = Data1Item[]
 const data1 = ref<Data1>([])
-const betterData1 = computed(() => {
-  return data1.value.map((item) => {
-    return [item.happened_at, item.amount] as [string, number]
-  })
+const betterData1 = computed<[string, number][]>(() => {
+  if (!props.startDate || !props.endDate) {
+    return []
+  }
+  const array = []
+  // 利用时间戳计算start-end 天数
+  const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
+  const days = diff / DAY + 1
+  let data1Index = 0
+  // 对没有记账的日期进行补零
+  for (let i = 0; i < days; i++) {
+    const time = new Time(props.startDate).add(i, 'day').format()
+    if (
+      data1.value[data1Index] &&
+      new Time(data1.value[data1Index].happened_at).format() === time
+    ) {
+      array.push([time, data1.value[data1Index].amount])
+      data1Index += 1
+    } else {
+      array.push([time, 0])
+    }
+  }
+  return array as [string, number][]
 })
 
-// setTimeout(() => {
-//   console.log(data1.value)
-//   console.log(betterData1.value)
-// }, 2000)
-onMounted(() => {
-  yierRequest1
+
+const fetchData1 = async () => {
+  await yierRequest1
     .get({
       url: '/api/v1/items/summary',
       params: {
@@ -71,25 +91,21 @@ onMounted(() => {
     })
     .then((res) => {
       data1.value = res.groups
-      // console.log(data1.value)
-      // console.log(data1.value[0].amount)
     })
-})
+}
+onMounted(fetchData1)
+watch(kind, fetchData1)
 
 // 饼图
 type Data2Item = { tag_id: number; tag: Tag; amount: number }
 type Data2 = Data2Item[]
 const data2 = ref<Data2>([])
-// const betterData2 = computed<{ name: string; value: number }>()
 const betterData2 = computed<{ name: string; value: number }[]>(() =>
   data2.value.map((item) => ({
     name: item.tag.name,
     value: item.amount
   }))
 )
-setTimeout(() => {
-  console.log(betterData2.value)
-}, 1000)
 
 const fetchData2 = async () => {
   await yierRequest1
@@ -107,7 +123,7 @@ const fetchData2 = async () => {
     })
 }
 onMounted(fetchData2)
-watch(kind,fetchData2)
+watch(kind, fetchData2)
 </script>
 
 <style lang="less" scoped>

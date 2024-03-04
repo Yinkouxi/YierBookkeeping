@@ -12,7 +12,6 @@ import { handleAmount } from '../../utils/handleAmount';
 const props = defineProps({
   data: Array as PropType<{ name: string; value: number }[]>
 })
-console.log(props.data, 'props')
 
 let myChart: echarts.ECharts | undefined = undefined
 
@@ -40,7 +39,7 @@ const defaultOption = {
   series: [
     {
       type: 'pie',
-      radius: '50%',
+      radius: '55%',
       emphasis: {
         itemStyle: {
           shadowBlur: 10,

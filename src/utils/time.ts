@@ -80,6 +80,9 @@ export class Time {
   getRaw() {
     return this.date
   }
+  getTimeStamp() {
+    return this.date.getTime()
+  }
   add(
     amount: number,
     unit: 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second' | 'millisecond'
