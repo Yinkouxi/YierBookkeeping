@@ -15,7 +15,13 @@
       </li>
     </ul>
     <ol class="list">
-      <li v-for="item in items" :key="item.id">
+      <li
+        v-for="item in items"
+        :key="item.id"
+        @touchmove="onTouchMove"
+        @touchstart="onTouchStart($event, item.id)"
+        @touchend="onTouchEnd"
+      >
         <div class="sign">
           <span>{{ item.tags?.[0].sign }}</span>
         </div>
@@ -46,6 +52,7 @@ import { Item } from '../../assets/type'
 import { convertISOtoNormalDate } from '../../utils/time'
 import { handleAmount } from '../../utils/handleAmount.ts'
 import router from '../../router'
+import { showConfirmDialog, showToast } from 'vant'
 const props = defineProps({
   startDate: {
     type: String as PropType<string>,
@@ -68,7 +75,8 @@ const itemCount = ref(0)
 const statsClick = () => {
   router.push('/statistics')
 }
-onMounted(async () => {
+
+const fetchItem1=async () => {
   if (!props.startDate || !props.endDate) {
     return
   }
@@ -90,7 +98,8 @@ onMounted(async () => {
     .catch((err) => {
       console.log(err)
     })
-})
+}
+onMounted(fetchItem1)
 
 const hasMore = () => {
   if (perPage.value * page.value < itemCount.value) {
@@ -128,12 +137,12 @@ const fetchMore = async () => {
   }
 }
 
-onMounted(() => {
+const fetchTotal = async() => {
   // 获取支出总额
   if (!props.startDate || !props.endDate) {
     return
   }
-  yierRequest1
+  await yierRequest1
     .get({
       url: '/api/v1/items/summary',
       params: {
@@ -147,7 +156,7 @@ onMounted(() => {
       totalExpenses.value = res.total
     })
 
-  yierRequest1
+  await yierRequest1
     .get({
       url: '/api/v1/items/summary',
       params: {
@@ -160,7 +169,48 @@ onMounted(() => {
     .then((res) => {
       totalIncome.value = res.total
     })
-})
+}
+
+
+onMounted(fetchTotal)
+
+// 长按删除
+const timer = ref<number | undefined>()
+const currentTag = ref<HTMLDivElement | undefined>()
+const onLongPress = (id:number) => {
+  showConfirmDialog({
+    title:'你要删除该账目吗'
+  }).then(async()=>{
+    await yierRequest2.delete({
+      url:`/api/v1/items/${id}`
+    }).then(()=>{
+      //更新数据
+      fetchItem1()
+      fetchTotal()
+      showToast('删除成功')
+    }).catch(()=>{
+      showToast('删除失败')
+    })
+  })
+}
+const onTouchStart = (e: TouchEvent,id:number) => {
+  currentTag.value = e.currentTarget as HTMLDivElement
+  timer.value = setTimeout(() => {
+    onLongPress(id)
+  }, 500) as unknown as number
+}
+
+const onTouchEnd = () => {
+  if (timer.value) clearTimeout(timer.value)
+}
+
+const onTouchMove = (e: TouchEvent) => {
+  const pointedElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+  if (currentTag.value?.contains(pointedElement) || currentTag.value === pointedElement) {
+  } else {
+    clearTimeout(timer.value)
+  }
+}
 </script>
 
 <style lang="less" scoped>
