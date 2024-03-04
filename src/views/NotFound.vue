@@ -1,5 +1,6 @@
 <template>
   <div class="notfound">
+    <svgIcon name="pig" width="200px" height="200px"></svgIcon>
     <h2>您访问的页面不存在，请检查路径后重试</h2>
   </div>
 </template>
@@ -25,6 +26,7 @@ h2 {
   color: purple;
   border: 2px solid purple;
   border-radius: 8px;
+  margin-top: 100px;
 }
 
 @media (max-width: 480px) {

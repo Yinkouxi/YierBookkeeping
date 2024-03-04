@@ -86,6 +86,14 @@ const routes: Array<RouteRecordRaw> = [
     // },
     component: () => import('@/views/StatisticsPage.vue')
   },
+  {
+    path:'/export',
+    component:()=>import('@/views/ExportPage.vue')
+  },
+  {
+    path:'/remind',
+    component:()=>import('@/views/RemindPage.vue')
+  },
   // 路径不匹配时显示notfound页面
   {
     path: '/:pathMatch(.*)',
@@ -115,7 +123,7 @@ const router = createRouter({
 //   next()
 // })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, _from) => {
   if (
     to.path === '/' ||
     to.path.startsWith('/welcome') ||

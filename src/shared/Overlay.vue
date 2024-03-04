@@ -29,16 +29,16 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/notify" class="action">
+            <router-link to="/remind" class="action">
               <svgIcon name="notice" width="32px" height="32px"></svgIcon>
               <span>记账提醒</span>
             </router-link>
           </li>
           <li>
-            <router-link to="/signout" class="action">
+            <div class="action">
               <svgIcon name="signOut" width="32px" height="32px"></svgIcon>
-              <span>退出登录</span>
-            </router-link>
+              <span>未完待续</span>
+            </div>
           </li>
         </ul>
       </nav>
